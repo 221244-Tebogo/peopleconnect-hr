@@ -1,4 +1,4 @@
-//backend/server.js
+// server.js
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -21,7 +21,11 @@ mongoose
 
 // Importing routes
 const authRoutes = require("./routes/auth");
+const careerRoutes = require("./routes/career");
+
+// Use routes
 app.use("/api/auth", authRoutes);
+app.use("/api/careers", careerRoutes);
 
 // Start the server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

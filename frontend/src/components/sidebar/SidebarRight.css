@@ -1,0 +1,109 @@
+#sidebar-right {
+    width: 250px;
+    background-color: #f8f9fa;
+    padding: 20px;
+    height: 100vh;
+    overflow-y: auto;
+    position: fixed;
+    right: 0;
+    top: 0;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* User Profile Section */
+  .user-profile {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .user-profile .icon-container {
+    width: 50px;
+    height: 50px;
+    background-color: #3950FF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin-right: 10px;
+  }
+  
+  .user-profile .overview-info p {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+  }
+  
+  /* Small Calendar Section */
+  .small-calendar {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .small-calendar .day-names {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    color: #697181;
+    margin-bottom: 10px;
+  }
+  
+  .small-calendar .days {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  
+  .day_num {
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f1f1f1;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  .day_num:hover {
+    background-color: #3950FF;
+    color: white;
+  }
+  
+  .day_num.active {
+    background-color: #3950FF;
+    color: white;
+  }
+  
+  /* Upcoming Events Section */
+  .calendar_events {
+    margin-top: 20px;
+  }
+  
+  .ce_title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .event_item {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .ei_Copy {
+    font-size: 0.9rem;
+    color: #333;
+    margin: 2px 0;
+  }
