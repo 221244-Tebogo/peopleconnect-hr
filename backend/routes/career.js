@@ -1,12 +1,14 @@
-// src/backend/routes/career.js
+// backend/routes/career.js
 const express = require("express");
-const auth = require("../middleware/auth"); // Import the auth middleware
+const auth = require("../middleware/auth");
+const multer = require("multer");
 const JobPosting = require("../models/JobPosting");
 
 const router = express.Router();
+const upload = multer({ dest: "public/jobs/" }); // Define where files should be stored
 
-// Create a job posting (HR/Admin only)
-router.post("/", auth, async (req, res) => {
+// Route to handle job posting with PDF upload
+router.post("/", auth, upload.single("file"), async (req, res) => {
   const {
     title,
     description,
@@ -15,6 +17,7 @@ router.post("/", auth, async (req, res) => {
     salaryRange,
     applicationDeadline,
   } = req.body;
+  const pdfUrl = req.file ? `/jobs/${req.file.filename}` : null; // Ensure `req.file` is handled correctly
 
   try {
     if (req.user.role !== "hr" && req.user.role !== "admin") {
@@ -28,22 +31,12 @@ router.post("/", auth, async (req, res) => {
       location,
       salaryRange,
       applicationDeadline,
+      pdfUrl, // Add the file URL to the job post
       postedBy: req.user.id,
     });
 
     const job = await newJob.save();
     res.json(job);
-  } catch (err) {
-    console.error("Server Error:", err.message);
-    res.status(500).send("Server Error");
-  }
-});
-
-// Get all job postings (no auth required if anyone can view)
-router.get("/", async (req, res) => {
-  try {
-    const jobs = await JobPosting.find().sort({ postDate: -1 });
-    res.json(jobs);
   } catch (err) {
     console.error("Server Error:", err.message);
     res.status(500).send("Server Error");

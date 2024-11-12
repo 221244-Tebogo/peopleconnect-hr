@@ -1,3 +1,4 @@
+// src/components/ManagerSidebar.js
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Sidebar.css";
@@ -17,25 +18,26 @@ const ManagerSidebar = () => {
       </div>
       <div className="sidebar-links">
         <Link to="/manager/dashboard" className="link">
-          Home
+          <i className="fa fa-home" aria-hidden="true"></i> Dashboard
+        </Link>
+        <Link to="/manager/tasks" className="link">
+          <i className="fa fa-tasks" aria-hidden="true"></i> Task Management
+        </Link>
+        <Link to="/manager/team" className="link">
+          <i className="fa fa-users" aria-hidden="true"></i> Team Overview
         </Link>
         <Link to="/manager/leave-requests" className="link">
-          Approve Leave
+          <i className="fa fa-calendar-check" aria-hidden="true"></i> Leave
+          Requests
         </Link>
-        <Link to="/manager/shift-schedule" className="link">
-          Shift Scheduling
-        </Link>{" "}
-        <Link to="/manager/reporting" className="link">
-          Team Reports
+        <Link to="/manager/reports" className="link">
+          <i className="fa fa-chart-line" aria-hidden="true"></i> Reports
         </Link>
-        <Link to="/manager/taskmanagement" className="link">
-          Task Management
-        </Link>
-        <Link to="/manager/profile" className="link">
-          My Profile
+        <Link to="/manager/announcements" className="link">
+          <i className="fa fa-bullhorn" aria-hidden="true"></i> Announcements
         </Link>
         <button onClick={handleLogout} className="logout-btn">
-          Logout
+          <i className="fa fa-sign-out-alt" aria-hidden="true"></i> Logout
         </button>
       </div>
     </div>

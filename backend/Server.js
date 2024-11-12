@@ -1,3 +1,4 @@
+// backend/Server.js
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -21,12 +22,17 @@ mongoose
 // Importing routes
 const authRoutes = require("./routes/auth");
 const careerRoutes = require("./routes/career");
-const userRoutes = require("./routes/user"); // User routes for managing user data
+const userRoutes = require("./routes/user");
+const trainingRoutes = require("./routes/training");
+const announcementRoutes = require("./routes/announcements"); // New announcement routes
 
 // Use routes
 app.use("/api/auth", authRoutes);
 app.use("/api/careers", careerRoutes);
-app.use("/api/users", userRoutes); // Register the user routes
+app.use("/api/users", userRoutes);
+app.use("/api/training", trainingRoutes);
+app.use("/api/announcements", announcementRoutes); // Use the new announcement routes
+app.use("/public", express.static("public"));
 
 // Start the server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
