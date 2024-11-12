@@ -11,12 +11,10 @@ const EmployeeList = () => {
     const fetchEmployees = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(
-          "http://localhost:5001/api/auth/users",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        const response = await axios.get("http://localhost:5002/api/users", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
         setEmployees(response.data);
       } catch (err) {
         console.error("Error fetching employees:", err);
