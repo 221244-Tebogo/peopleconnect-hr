@@ -1,0 +1,28 @@
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f4f4f9;
+  height: 100vh;
+  overflow: hidden;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding-left: 250px; /* Shift content to the right of the sidebar */
+  background-color: #f9f9f9;
+  padding: 20px;
+  height: 100vh;
+  overflow-y: auto; /* Enable scrolling for the main content */
+  box-sizing: border-box;
+}
