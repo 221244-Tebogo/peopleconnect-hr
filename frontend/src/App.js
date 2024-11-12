@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Authentication from "./components/Authentication";
 import NotFound from "./components/NotFound";
-import Announcements from "./components/Announcements";
+// import Announcements from "./components/Announcements"; // Commented out
 
 // HR Pages
 import AdminDashboard from "./hr/AdminDashboard";
@@ -12,25 +12,24 @@ import HrReporting from "./hr/Reports";
 import AssignTraining from "./hr/AssignTraining";
 import HrProfile from "./hr/Profile";
 import HrCareer from "./hr/HRCareer";
-import HRLeave from "./hr/HRLeave"; // Ensure this component exists
+import HRLeave from "./hr/HRLeave";
 
 // Manager Pages
-import ManagerDashboard from "./manager/ManagerDashboard"; // Ensure this component exists
-import LeaveRequests from "./manager/LeaveRequests"; // Ensure this component exists
-import ShiftSchedule from "./manager/ShiftSchedule"; // Ensure this component exists
-import TeamReports from "./manager/TeamReports"; // Ensure this component exists
-import TaskManagement from "./manager/TaskManagement"; // Ensure this component exists
-import ManagerProfile from "./manager/ManagerProfile"; // Ensure this component exists
-import ManagerLeave from "./manager/ManagerLeave"; // Ensure this component exists
+import ManagerDashboard from "./manager/ManagerDashboard";
+import ManagerLeave from "./manager/ManagerLeave";
+// import ShiftSchedule from "./manager/ShiftSchedule"; // Commented out
+import TeamReports from "./manager/ManagerReports";
+import TaskManagement from "./manager/TaskManagement";
+import ManagerProfile from "./manager/ManagerProfile";
 
 // Employee Pages
-import EmployeeDashboard from "./employee/EmployeeDashboard"; // Ensure this component exists
-import LeaveManagement from "./employee/LeaveManagement"; // Ensure this component exists
-import EmployeeProfile from "./employee/Profile"; // Ensure this component exists
-import Schedule from "./employee/Schedule"; // Ensure this component exists
-import Tasks from "./employee/Tasks"; // Ensure this component exists
-import EmployeeTraining from "./employee/Training"; // Ensure this component exists
-import Career from "./employee/Career"; // Ensure this component exists
+import EmployeeDashboard from "./employee/Dashboard";
+import LeaveManagement from "./employee/LeaveManagement";
+import EmployeeProfile from "./employee/Profile";
+import Schedule from "./employee/Schedule";
+import Tasks from "./employee/TaskList";
+import Training from "./employee/Training";
+import Career from "./employee/Career";
 
 function App() {
   return (
@@ -47,7 +46,7 @@ function App() {
           <Route path="assigntraining" element={<AssignTraining />} />
           <Route path="profile" element={<HrProfile />} />
           <Route path="career-management" element={<HrCareer />} />
-          <Route path="announcements" element={<Announcements />} />
+          {/* <Route path="announcements" element={<Announcements />} /> */}
           <Route path="leave-applications" element={<HRLeave />} />
         </Route>
 
@@ -55,11 +54,11 @@ function App() {
         <Route path="/manager">
           <Route path="dashboard" element={<ManagerDashboard />} />
           <Route path="leave-requests" element={<ManagerLeave />} />
-          <Route path="shift-schedule" element={<ShiftSchedule />} />
+          {/* <Route path="shift-schedule" element={<ShiftSchedule />} /> */}
           <Route path="team-reports" element={<TeamReports />} />
           <Route path="taskmanagement" element={<TaskManagement />} />
           <Route path="profile" element={<ManagerProfile />} />
-          <Route path="announcements" element={<Announcements />} />
+          {/* <Route path="announcements" element={<Announcements />} /> */}
         </Route>
 
         {/* Employee Routes */}
@@ -72,9 +71,9 @@ function App() {
           <Route path="dashboard/profile" element={<EmployeeProfile />} />
           <Route path="dashboard/schedule" element={<Schedule />} />
           <Route path="dashboard/tasks" element={<Tasks />} />
-          <Route path="dashboard/training" element={<EmployeeTraining />} />
+          <Route path="dashboard/training" element={<Training />} />
           <Route path="dashboard/career" element={<Career />} />
-          <Route path="dashboard/announcements" element={<Announcements />} />
+          {/* <Route path="dashboard/announcements" element={<Announcements />} /> */}
         </Route>
 
         {/* Catch-All Route */}
