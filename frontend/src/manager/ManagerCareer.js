@@ -1,4 +1,4 @@
-// src/pages/manager/ManagerCareer.js
+// src/manager/ManagerCareer.js
 import React from "react";
 import ManagerSidebar from "../components/sidebar/ManagerSidebar";
 

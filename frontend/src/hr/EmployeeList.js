@@ -41,25 +41,60 @@ const EmployeeList = () => {
     fetchEmployees();
   }, []);
 
-  // Handle modal show/hide
-  const handleModalShow = () => setShowModal(true);
-  const handleModalClose = () => setShowModal(false);
+  const handleModalShow = (employee = null) => {
+    setEditEmployee(employee);
+    if (employee) {
+      setNewEmployee({
+        name: employee.name,
+        surname: employee.surname,
+        email: employee.email,
+        role: employee.role,
+      });
+    } else {
+      setNewEmployee({
+        name: "",
+        surname: "",
+        email: "",
+        role: "employee",
+      });
+    }
+    setShowModal(true);
+  };
 
-  // Handle adding a new employee
-  const handleAddEmployee = async () => {
+  const handleModalClose = () => {
+    setShowModal(false);
+    setEditEmployee(null);
+  };
+
+  // Handle adding or updating an employee
+  const handleSaveEmployee = async () => {
+    const token = localStorage.getItem("token");
     try {
-      const token = localStorage.getItem("token");
-      const response = await axios.post(
-        "http://localhost:5002/api/users",
-        newEmployee,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      setEmployees([...employees, response.data]);
+      if (editEmployee) {
+        // Update existing employee
+        await axios.put(
+          `http://localhost:5002/api/users/${editEmployee._id}`,
+          newEmployee,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setEmployees((prev) =>
+          prev.map((emp) =>
+            emp._id === editEmployee._id ? { ...emp, ...newEmployee } : emp
+          )
+        );
+      } else {
+        // Add new employee
+        const response = await axios.post(
+          "http://localhost:5002/api/users",
+          newEmployee,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setEmployees([...employees, response.data]);
+      }
       handleModalClose();
-      setNewEmployee({ name: "", surname: "", email: "", role: "employee" });
     } catch (error) {
-      console.error("Error adding employee:", error);
-      alert("Failed to add employee.");
+      console.error("Error saving employee:", error);
+      alert("Failed to save employee.");
     }
   };
 
@@ -94,17 +129,15 @@ const EmployeeList = () => {
   return (
     <div>
       <HRSidebar />
-      <div className="container">
+      <div className="main-content">
         <h2>Employee List</h2>
 
-        {/* Add Employee Button */}
         {userRole === "hr" && (
-          <Button variant="primary" onClick={handleModalShow}>
+          <Button variant="primary" onClick={() => handleModalShow()}>
             Add New Employee
           </Button>
         )}
 
-        {/* Employee List Table */}
         <table className="table table-striped table-hover mt-3">
           <thead>
             <tr>
@@ -126,7 +159,7 @@ const EmployeeList = () => {
                   <td>
                     <Button
                       variant="warning"
-                      onClick={() => setEditEmployee(employee)}
+                      onClick={() => handleModalShow(employee)}
                       size="sm"
                     >
                       Edit
@@ -159,10 +192,12 @@ const EmployeeList = () => {
           </Button>
         </div>
 
-        {/* Modal for Adding Employee */}
+        {/* Modal for Adding/Editing Employee */}
         <Modal show={showModal} onHide={handleModalClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Add New Employee</Modal.Title>
+            <Modal.Title>
+              {editEmployee ? "Edit Employee" : "Add New Employee"}
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <input
@@ -208,8 +243,8 @@ const EmployeeList = () => {
             <Button variant="secondary" onClick={handleModalClose}>
               Close
             </Button>
-            <Button variant="primary" onClick={handleAddEmployee}>
-              Add Employee
+            <Button variant="primary" onClick={handleSaveEmployee}>
+              {editEmployee ? "Update Employee" : "Add Employee"}
             </Button>
           </Modal.Footer>
         </Modal>

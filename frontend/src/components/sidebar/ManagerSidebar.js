@@ -1,4 +1,3 @@
-// src/components/ManagerSidebar.js
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Sidebar.css";
@@ -20,11 +19,8 @@ const ManagerSidebar = () => {
         <Link to="/manager/dashboard" className="link">
           <i className="fa fa-home" aria-hidden="true"></i> Dashboard
         </Link>
-        <Link to="/manager/tasks" className="link">
+        <Link to="/manager/task-management" className="link">
           <i className="fa fa-tasks" aria-hidden="true"></i> Task Management
-        </Link>
-        <Link to="/manager/team" className="link">
-          <i className="fa fa-users" aria-hidden="true"></i> Team Overview
         </Link>
         <Link to="/manager/leave-requests" className="link">
           <i className="fa fa-calendar-check" aria-hidden="true"></i> Leave
@@ -35,6 +31,9 @@ const ManagerSidebar = () => {
         </Link>
         <Link to="/manager/announcements" className="link">
           <i className="fa fa-bullhorn" aria-hidden="true"></i> Announcements
+        </Link>
+        <Link to="/manager/profile" className="link">
+          <i className="fa fa-user" aria-hidden="true"></i> Profile
         </Link>
         <button onClick={handleLogout} className="logout-btn">
           <i className="fa fa-sign-out-alt" aria-hidden="true"></i> Logout

@@ -1,4 +1,3 @@
-// src/hr/AssignedTraining.js
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -29,7 +28,6 @@ const AssignedTraining = () => {
     fetchAssignments();
   }, []);
 
-  // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentAssignments = assignments.slice(

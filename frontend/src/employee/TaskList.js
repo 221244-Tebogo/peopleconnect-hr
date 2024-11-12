@@ -1,130 +1,168 @@
-// src/hr/JobCreationModal.js
-import React, { useState } from "react";
+// src/employee/EmployeeTaskManagement.js
+
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import EmployeeSidebar from "../components/sidebar/EmployeeSidebar";
 
-const JobCreationModal = ({ fetchPositions, closeModal, editPosition }) => {
-  const [newPosition, setNewPosition] = useState(
-    editPosition || {
-      title: "",
-      department: "",
-      description: "",
-      duration: "",
-      applicationDeadline: "",
+const EmployeeTaskManagement = () => {
+  const [tasks, setTasks] = useState([]);
+  const [likeCounts, setLikeCounts] = useState({});
+  const [comments, setComments] = useState({});
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+
+  const fetchTasks = async () => {
+    try {
+      const employeeId = localStorage.getItem("employeeId"); // Assuming employeeId is stored in localStorage
+      const response = await axios.get(
+        `http://localhost:5002/api/tasks/assigned/${employeeId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      setTasks(response.data);
+
+      setLikeCounts(
+        response.data.reduce((acc, task) => {
+          acc[task._id] = task.likes || 0;
+          return acc;
+        }, {})
+      );
+      setComments(
+        response.data.reduce((acc, task) => {
+          acc[task._id] = task.comments || [];
+          return acc;
+        }, {})
+      );
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
     }
-  );
-  const [file, setFile] = useState(null);
-
-  const departments = [
-    "Marketing",
-    "IT",
-    "Finance",
-    "Security",
-    "Human Resources",
-    "Food & Beverage",
-  ];
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewPosition((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFileChange = (e) => setFile(e.target.files[0]);
-
-  const handleCreateOrUpdate = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("title", newPosition.title);
-    formData.append("department", newPosition.department);
-    formData.append("description", newPosition.description);
-    formData.append("applicationDeadline", newPosition.applicationDeadline);
-    formData.append("duration", newPosition.duration);
-    if (file) formData.append("file", file);
-
+  const handleLike = async (taskId) => {
     try {
-      const url = editPosition
-        ? `http://localhost:5002/api/careers/${editPosition._id}`
-        : "http://localhost:5002/api/careers";
-      const method = editPosition ? "put" : "post";
-
-      await axios[method](url, formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      fetchPositions(); // Refresh job list after creation
-      closeModal(); // Close modal
+      await axios.put(
+        `http://localhost:5002/api/tasks/${taskId}/like`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      setLikeCounts((prev) => ({ ...prev, [taskId]: prev[taskId] + 1 }));
     } catch (error) {
-      console.error("Error creating/updating position:", error);
-      alert("There was an error processing your request. Please try again.");
+      console.error("Error liking task:", error);
+    }
+  };
+
+  const handleComment = async (taskId, comment) => {
+    try {
+      await axios.post(
+        `http://localhost:5002/api/tasks/${taskId}/comment`,
+        { comment },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      setComments((prev) => ({
+        ...prev,
+        [taskId]: [...prev[taskId], comment],
+      }));
+    } catch (error) {
+      console.error("Error commenting on task:", error);
+    }
+  };
+
+  const markComplete = async (taskId) => {
+    try {
+      await axios.patch(
+        `http://localhost:5002/api/tasks/complete/${taskId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      setTasks((prev) =>
+        prev.map((task) =>
+          task._id === taskId ? { ...task, completed: true } : task
+        )
+      );
+    } catch (error) {
+      console.error("Error marking task as complete:", error);
     }
   };
 
   return (
-    <div className="modal-overlay" onClick={closeModal}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <h2>{editPosition ? "Edit Position" : "Add New Position"}</h2>
-        <form onSubmit={handleCreateOrUpdate}>
-          <input
-            type="text"
-            name="title"
-            value={newPosition.title}
-            onChange={handleChange}
-            required
-            placeholder="Title"
-          />
-          <select
-            name="department"
-            value={newPosition.department}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select Department</option>
-            {departments.map((dept, index) => (
-              <option key={index} value={dept}>
-                {dept}
-              </option>
-            ))}
-          </select>
-          <textarea
-            name="description"
-            value={newPosition.description}
-            onChange={handleChange}
-            required
-            placeholder="Description"
-          ></textarea>
-          <input
-            type="number"
-            name="duration"
-            value={newPosition.duration}
-            onChange={handleChange}
-            required
-            placeholder="Duration (days)"
-            min="1"
-          />
-          <input
-            type="date"
-            name="applicationDeadline"
-            value={newPosition.applicationDeadline}
-            onChange={handleChange}
-            required
-          />
-          <input type="file" onChange={handleFileChange} accept=".pdf" />
-          <button type="submit" className="btn btn-success">
-            {editPosition ? "Update Position" : "Create Position"}
-          </button>
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={closeModal}
-          >
-            Cancel
-          </button>
-        </form>
+    <div className="app-container">
+      <EmployeeSidebar />
+      <div className="main-content">
+        <h2>Employee Tasks</h2>
+
+        {/* Displaying Tasks */}
+        <div>
+          {tasks.map((task) => (
+            <div key={task._id} className="card mb-3">
+              <div className="card-body">
+                <h5 className="card-title">{task.text}</h5>
+                <p className="card-text">
+                  <strong>Assigned to:</strong> {task.employeeName}
+                </p>
+                <p className="card-text">
+                  <strong>Status:</strong>{" "}
+                  {task.completed ? "Completed" : "Pending"}
+                </p>
+
+                <button
+                  className="btn btn-outline-primary btn-sm"
+                  onClick={() => handleLike(task._id)}
+                >
+                  Like ({likeCounts[task._id]})
+                </button>
+
+                {!task.completed && (
+                  <button
+                    className="btn btn-success btn-sm ms-2"
+                    onClick={() => markComplete(task._id)}
+                  >
+                    Mark Complete
+                  </button>
+                )}
+
+                <div className="mt-3">
+                  <h6>Comments</h6>
+                  {comments[task._id]?.map((comment, idx) => (
+                    <p key={idx} className="card-text">
+                      {comment}
+                    </p>
+                  ))}
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Add a comment"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && e.target.value) {
+                        handleComment(task._id, e.target.value);
+                        e.target.value = "";
+                      }
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
 };
 
-export default JobCreationModal;
+export default EmployeeTaskManagement;

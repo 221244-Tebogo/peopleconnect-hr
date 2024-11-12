@@ -1,8 +1,7 @@
-//frontend/components/Authentication
+// frontend/components/Authentication.js
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-// import "./Authentication.css";
 
 const API_BASE_URL = "http://localhost:5002/api/auth";
 
@@ -14,12 +13,13 @@ const Authentication = () => {
     name: "",
     surname: "",
     role: "",
+    userType: "", // Added userType field
   });
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // Check if token exists to determine login status
   const isLoggedIn = !!localStorage.getItem("token");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -35,25 +35,21 @@ const Authentication = () => {
         headers: { "Content-Type": "application/json" },
       });
 
-      console.log("Login Response Data:", response.data); // Log full response
-
       const { token, role } = response.data;
-
       if (token && role) {
         localStorage.setItem("token", token);
         localStorage.setItem("role", role);
 
-        // Use setTimeout to ensure navigate is called after token/role set in localStorage
         setTimeout(() => {
           switch (role) {
             case "hr":
-              navigate("/hr-dashboard");
+              navigate("/hr/dashboard");
               break;
             case "manager":
-              navigate("/manager-dashboard");
+              navigate("/manager/dashboard");
               break;
             case "employee":
-              navigate("/employee-dashboard");
+              navigate("/employee/dashboard");
               break;
             default:
               navigate("/dashboard");
@@ -140,18 +136,49 @@ const Authentication = () => {
               required
             />
             {!isLogin && (
-              <select
-                name="role"
-                onChange={(e) =>
-                  setFormData({ ...formData, role: e.target.value })
-                }
-                required
-              >
-                <option value="">Select Role</option>
-                <option value="hr">HR</option>
-                <option value="manager">Manager</option>
-                <option value="employee">Employee</option>
-              </select>
+              <>
+                <label>Select Role:</label>
+                <select
+                  name="role"
+                  onChange={(e) =>
+                    setFormData({ ...formData, role: e.target.value })
+                  }
+                  required
+                >
+                  <option value="">Select Role</option>
+                  <option value="hr">HR</option>
+                  <option value="manager">Manager</option>
+                  <option value="employee">Employee</option>
+                </select>
+
+                <label>Select Employee Type:</label>
+                <div className="userType-selection">
+                  <label>
+                    <input
+                      type="radio"
+                      name="userType"
+                      value="office"
+                      onChange={(e) =>
+                        setFormData({ ...formData, userType: e.target.value })
+                      }
+                      required
+                    />
+                    Office
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="userType"
+                      value="shift"
+                      onChange={(e) =>
+                        setFormData({ ...formData, userType: e.target.value })
+                      }
+                      required
+                    />
+                    Shift
+                  </label>
+                </div>
+              </>
             )}
             <button type="submit">{isLogin ? "Login" : "Register"}</button>
             {error && <p className="error">{error}</p>}

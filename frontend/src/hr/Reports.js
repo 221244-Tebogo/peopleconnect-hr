@@ -1,5 +1,3 @@
-//src/hr/Reports.js
-
 import React from "react";
 import HRSidebar from "../components/sidebar/HRSidebar";
 import { Bar } from "react-chartjs-2";

@@ -17,10 +17,10 @@ const HRSidebar = () => {
         <img src={logo} alt="People Connect Logo" className="sidebar-logo" />
       </div>
       <div className="sidebar-links">
-        <Link to="/hr/AdminDashboard" className="link">
+        <Link to="/hr/dashboard" className="link">
           <i className="fa fa-home" aria-hidden="true"></i> Home
         </Link>
-        <Link to="/hr/ManageLeave" className="link">
+        <Link to="/hr/leave" className="link">
           <i className="fa fa-calendar-alt" aria-hidden="true"></i> Manage Leave
         </Link>
         <Link to="/hr/reports" className="link">
@@ -33,14 +33,14 @@ const HRSidebar = () => {
         <Link to="/hr/profile" className="link">
           <i className="fa fa-user" aria-hidden="true"></i> Profile
         </Link>
-        <Link to="/hrcareer" className="link">
+        <Link to="/hr/career" className="link">
           <i className="fa fa-briefcase" aria-hidden="true"></i> Career
           Management
         </Link>
         <Link to="/hr/announcements" className="link">
           <i className="fa fa-bullhorn" aria-hidden="true"></i> Announcements
         </Link>
-        <Link to="/hr/employeelist" className="link">
+        <Link to="/hr/employee-list" className="link">
           <i className="fa fa-users" aria-hidden="true"></i> Employee List
         </Link>
         <button onClick={handleLogout} className="logout-btn">

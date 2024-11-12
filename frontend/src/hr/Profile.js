@@ -1,4 +1,3 @@
-// src/pages/HRProfile.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import HRSidebar from "../components/sidebar/HRSidebar";
@@ -16,7 +15,6 @@ const HRProfile = () => {
   const [formData, setFormData] = useState({});
   const [callMessage, setCallMessage] = useState("");
 
-  // Fetch HR profile data
   useEffect(() => {
     fetchProfile();
   }, []);
@@ -28,26 +26,23 @@ const HRProfile = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setProfileData(response.data);
-      setFormData(response.data); // Initialize form data for editing
+      setFormData(response.data);
       displayCallMessage(response.data.name, response.data.role);
     } catch (err) {
       console.error("Error fetching profile data:", err);
     }
   };
 
-  // Function to display the "Call" message
   const displayCallMessage = (name, role) => {
     const message = `Call: ${name} - ${role}`;
-    console.log("Setting callMessage:", message); // Debugging line
+    console.log("Setting callMessage:", message);
     setCallMessage(message);
   };
 
-  // Handle form input changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handle profile update
   const handleSave = async () => {
     const token = localStorage.getItem("token");
     try {
@@ -64,7 +59,7 @@ const HRProfile = () => {
   return (
     <div className="app-container">
       <HRSidebar />
-      <div className="container">
+      <div className="main-content">
         <h2>HR Profile</h2>
 
         {/* Display the Call Message */}

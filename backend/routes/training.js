@@ -7,12 +7,15 @@ const auth = require("../middleware/auth");
 const router = express.Router();
 
 // Fetch all training programs
-router.get("/programs", auth, async (req, res) => {
+// Fetch all training assignments for the logged-in employee
+router.get("/assignments", auth, async (req, res) => {
   try {
-    const programs = await Training.find();
-    res.status(200).json(programs);
+    const assignments = await TrainingAssignment.find({ employee: req.user.id })
+      .populate("training", "name description duration")
+      .populate("employee", "name surname email");
+    res.status(200).json(assignments);
   } catch (err) {
-    console.error("Error fetching programs:", err);
+    console.error("Error fetching assignments:", err);
     res.status(500).json({ message: "Server error" });
   }
 });

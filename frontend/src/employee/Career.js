@@ -16,7 +16,7 @@ const Career = () => {
   useEffect(() => {
     const fetchPositions = async () => {
       try {
-        const response = await axios.get("/api/careers", {
+        const response = await axios.get("http://localhost:5002/api/careers", {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
         setPositions(response.data);
@@ -33,11 +33,10 @@ const Career = () => {
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    if (files) {
-      setApplicationData({ ...applicationData, [name]: files[0] });
-    } else {
-      setApplicationData({ ...applicationData, [name]: value });
-    }
+    setApplicationData((prev) => ({
+      ...prev,
+      [name]: files ? files[0] : value,
+    }));
   };
 
   const handleSubmitApplication = async (e) => {
@@ -49,7 +48,7 @@ const Career = () => {
     formData.append("position", selectedPosition._id);
 
     try {
-      const response = await axios.post("/api/apply", formData, {
+      await axios.post("http://localhost:5002/api/apply", formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "multipart/form-data",

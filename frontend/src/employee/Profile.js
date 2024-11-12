@@ -1,39 +1,173 @@
-// src/pages/Profile.js
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import ProfileComments from "./ProfileComments";
+import EmployeeSidebar from "../components/sidebar/EmployeeSidebar";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-const Profile = ({ match }) => {
-  const [profile, setProfile] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const userId = match.params.userId;
+const EmployeeProfile = () => {
+  const [profileData, setProfileData] = useState({
+    name: "",
+    email: "",
+    role: "",
+    department: "",
+    phone: "",
+  });
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState({});
+  const [callMessage, setCallMessage] = useState("");
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const response = await axios.get(`/api/employees/user/${userId}`);
-        setProfile(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-        setLoading(false);
-      }
-    };
     fetchProfile();
-  }, [userId]);
+  }, []);
 
-  if (loading) return <p>Loading profile...</p>;
+  const fetchProfile = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.get(
+        "http://localhost:5002/api/employee/profile",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setProfileData(response.data);
+      setFormData(response.data);
+      displayCallMessage(response.data.name, response.data.role);
+    } catch (err) {
+      console.error("Error fetching profile data:", err);
+    }
+  };
+
+  const displayCallMessage = (name, role) => {
+    const message = `Call: ${name} - ${role}`;
+    setCallMessage(message);
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSave = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      await axios.put("http://localhost:5002/api/employee/profile", formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setIsEditing(false);
+      fetchProfile(); // Refresh profile data
+    } catch (err) {
+      console.error("Error updating profile:", err);
+    }
+  };
 
   return (
-    <div>
-      <h1>{profile.user.name}'s Profile</h1>
-      <p>Department: {profile.department}</p>
-      <p>Role: {profile.role}</p>
-      <p>Contact Number: {profile.contactNumber}</p>
-      <p>Bio: {profile.bio}</p>
-      <ProfileComments userId={userId} comments={profile.comments} />
+    <div className="app-container">
+      <EmployeeSidebar />
+      <div className="main-content">
+        <h2>Employee Profile</h2>
+
+        {/* Display the Call Message */}
+        {callMessage ? (
+          <div className="alert alert-info">{callMessage}</div>
+        ) : (
+          <p>Loading profile message...</p>
+        )}
+
+        {!isEditing ? (
+          <div className="profile-view">
+            <p>
+              <strong>Name:</strong> {profileData.name || "N/A"}
+            </p>
+            <p>
+              <strong>Email:</strong> {profileData.email || "N/A"}
+            </p>
+            <p>
+              <strong>Role:</strong> {profileData.role || "N/A"}
+            </p>
+            <p>
+              <strong>Department:</strong> {profileData.department || "N/A"}
+            </p>
+            <p>
+              <strong>Phone:</strong> {profileData.phone || "N/A"}
+            </p>
+            <button
+              className="btn btn-primary"
+              onClick={() => setIsEditing(true)}
+            >
+              Edit Profile
+            </button>
+          </div>
+        ) : (
+          <div className="profile-edit">
+            <form>
+              <div className="form-group mb-2">
+                <label>Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="form-control"
+                />
+              </div>
+              <div className="form-group mb-2">
+                <label>Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="form-control"
+                />
+              </div>
+              <div className="form-group mb-2">
+                <label>Role</label>
+                <input
+                  type="text"
+                  name="role"
+                  value={formData.role}
+                  onChange={handleChange}
+                  className="form-control"
+                />
+              </div>
+              <div className="form-group mb-2">
+                <label>Department</label>
+                <input
+                  type="text"
+                  name="department"
+                  value={formData.department}
+                  onChange={handleChange}
+                  className="form-control"
+                />
+              </div>
+              <div className="form-group mb-2">
+                <label>Phone</label>
+                <input
+                  type="text"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="form-control"
+                />
+              </div>
+              <button
+                type="button"
+                className="btn btn-success me-2"
+                onClick={handleSave}
+              >
+                Save Changes
+              </button>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => setIsEditing(false)}
+              >
+                Cancel
+              </button>
+            </form>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
 
-export default Profile;
+export default EmployeeProfile;

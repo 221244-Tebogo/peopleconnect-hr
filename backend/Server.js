@@ -24,14 +24,16 @@ const authRoutes = require("./routes/auth");
 const careerRoutes = require("./routes/career");
 const userRoutes = require("./routes/user");
 const trainingRoutes = require("./routes/training");
-const announcementRoutes = require("./routes/announcements"); // New announcement routes
+const announcementRoutes = require("./routes/announcements");
+const profileRoutes = require("./routes/profile");
 
 // Use routes
 app.use("/api/auth", authRoutes);
 app.use("/api/careers", careerRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/training", trainingRoutes);
-app.use("/api/announcements", announcementRoutes); // Use the new announcement routes
+app.use("/api/announcements", announcementRoutes);
+app.use("/api/profile", profileRoutes);
 app.use("/public", express.static("public"));
 
 // Start the server

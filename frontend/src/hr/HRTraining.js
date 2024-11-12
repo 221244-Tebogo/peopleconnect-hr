@@ -92,7 +92,7 @@ const HRTraining = () => {
   return (
     <div className="app-container">
       <HRSidebar />
-      <div className="container">
+      <div className="main-content">
         <h2>Manage Trainings</h2>
 
         <button
@@ -163,7 +163,6 @@ const HRTraining = () => {
           </tbody>
         </table>
 
-        {/* Modals */}
         {showAssignModal && (
           <AssignTraining
             onClose={() => setShowAssignModal(false)}

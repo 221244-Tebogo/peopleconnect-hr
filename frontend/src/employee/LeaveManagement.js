@@ -1,5 +1,4 @@
 // LeaveManagement.js
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import EmployeeSidebar from "../components/sidebar/EmployeeSidebar";
@@ -15,23 +14,18 @@ const LeaveManagement = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [showApplyModal, setShowApplyModal] = useState(false);
 
-  // Fetch leave data function
   const fetchLeaveData = async () => {
     try {
-      const balanceResponse = await axios.get(
-        "http://localhost:5001/api/leaves/balance",
-        {
+      const [balanceResponse, historyResponse] = await Promise.all([
+        axios.get("http://localhost:5002/api/leaves/balance", {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
-      setLeaveBalance(balanceResponse.data.balance);
+        }),
+        axios.get("http://localhost:5002/api/leaves/history", {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }),
+      ]);
 
-      const historyResponse = await axios.get(
-        "http://localhost:5001/api/leaves/history",
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
+      setLeaveBalance(balanceResponse.data.balance);
       setLeaveHistory(historyResponse.data);
     } catch (error) {
       console.error("Error fetching leave data:", error);
@@ -42,33 +36,30 @@ const LeaveManagement = () => {
     fetchLeaveData();
   }, []);
 
-  // Handle apply for leave function
   const handleApplyLeave = async (e) => {
     e.preventDefault();
+
+    const startDay = new Date(startDate).getDay();
+    const userType = localStorage.getItem("userType");
+
+    if (userType === "office" && (startDay === 0 || startDay === 6)) {
+      setErrorMessage("Office employees cannot apply for leave on weekends.");
+      return;
+    }
+
     if (endDate < startDate) {
       setErrorMessage("End date cannot be before start date.");
       return;
-    } else {
-      setErrorMessage("");
     }
 
     const leaveData = { leaveType, startDate, endDate, reason };
     try {
-      await axios.post("http://localhost:5001/api/leaves/apply", leaveData, {
+      await axios.post("http://localhost:5002/api/leaves/apply", leaveData, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
       alert("Leave application submitted successfully!");
 
-      // Refresh leave history after successful application
-      const updatedHistory = await axios.get(
-        "http://localhost:5001/api/leaves/history",
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
-      setLeaveHistory(updatedHistory.data);
-
-      // Reset fields and close modal
+      fetchLeaveData(); // Refresh leave data
       setLeaveType("annual");
       setStartDate("");
       setEndDate("");
@@ -107,7 +98,6 @@ const LeaveManagement = () => {
             <h2>Leave Balance: {leaveBalance} days</h2>
           </div>
 
-          {/* Apply for Leave Modal */}
           {showApplyModal && (
             <div className="modal-overlay">
               <div className="modal-content">

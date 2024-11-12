@@ -10,7 +10,6 @@ const HrCareer = () => {
   const [showModal, setShowModal] = useState(false);
   const [editPosition, setEditPosition] = useState(null);
 
-  // Fetch positions on initial render and after changes
   const fetchPositions = async () => {
     try {
       const response = await axios.get("http://localhost:5002/api/careers", {
@@ -39,8 +38,9 @@ const HrCareer = () => {
   return (
     <div className="app-container">
       <HRSidebar />
-      <div className="container">
-        <div className="d-flex justify-content-end">
+      <div className="main-content">
+        <h2>Manage Career Opportunities</h2>
+        <div className="d-flex justify-content-end mb-3">
           <button className="btn btn-success" onClick={() => openModal()}>
             Add New Position
           </button>

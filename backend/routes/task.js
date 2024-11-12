@@ -45,6 +45,19 @@ router.patch("/complete/:taskId", auth, async (req, res) => {
   }
 });
 
+// routes/tasks.js (backend)
+
+// Fetch tasks assigned to a specific employee
+router.get("/assigned/:employeeId", auth, async (req, res) => {
+  try {
+    const tasks = await Task.find({ employee: req.params.employeeId });
+    res.json(tasks);
+  } catch (error) {
+    console.error("Error fetching assigned tasks:", error);
+    res.status(500).json({ message: "Failed to fetch assigned tasks." });
+  }
+});
+
 // Add comment to a task
 router.patch("/comment/:taskId", auth, async (req, res) => {
   const { comment } = req.body;

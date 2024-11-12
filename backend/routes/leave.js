@@ -1,17 +1,29 @@
 const express = require("express");
 const multer = require("multer");
+const moment = require("moment");
 const auth = require("../middleware/auth");
 const Leave = require("../models/Leave");
+const User = require("../models/User"); // Ensure User model is imported
 
 const router = express.Router();
 const upload = multer({ dest: "public/leave-docs/" });
 
-// Leave application endpoint (Employee)
+// Apply for leave with weekend restriction for office employees
 router.post("/apply", auth, upload.single("document"), async (req, res) => {
   const { leaveType, startDate, endDate, reason } = req.body;
   const documentUrl = req.file ? `/leave-docs/${req.file.filename}` : null;
 
   try {
+    const user = await User.findById(req.user.id);
+    const startDay = moment(startDate).day();
+
+    // Restrict office employees from applying for leave on weekends
+    if (user.userType === "office" && (startDay === 0 || startDay === 6)) {
+      return res.status(400).json({
+        message: "Office employees cannot apply for leave on weekends.",
+      });
+    }
+
     const leaveApplication = new Leave({
       employeeId: req.user.id,
       leaveType,
@@ -21,6 +33,7 @@ router.post("/apply", auth, upload.single("document"), async (req, res) => {
       documentUrl,
       status: "Pending",
     });
+
     await leaveApplication.save();
     res.json(leaveApplication);
   } catch (error) {
@@ -33,10 +46,7 @@ router.post("/apply", auth, upload.single("document"), async (req, res) => {
 router.get("/view", auth, async (req, res) => {
   try {
     const leaveApplications = await Leave.find({
-      $or: [
-        { managerId: req.user.id }, // For manager access
-        { role: "hr" }, // For HR access
-      ],
+      $or: [{ managerId: req.user.id }, { role: "hr" }], // Filter for manager or HR
     });
     res.json(leaveApplications);
   } catch (error) {

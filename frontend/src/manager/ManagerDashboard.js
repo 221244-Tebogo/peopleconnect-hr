@@ -1,10 +1,29 @@
-//frontend/manager/ManagerDashboard.js
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import ManagerSidebar from "../components/sidebar/ManagerSidebar";
-
 import "./Manager.css";
 
 const ManagerDashboard = () => {
+  const [userName, setUserName] = useState("User");
+
+  useEffect(() => {
+    const fetchUserName = async () => {
+      try {
+        const response = await axios.get("http://localhost:5002/api/profile", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // Assuming the token is stored in localStorage
+          },
+        });
+        const { name } = response.data;
+        setUserName(name);
+      } catch (error) {
+        console.error("Error fetching user's name:", error);
+      }
+    };
+
+    fetchUserName();
+  }, []);
+
   return (
     <div className="container-grid">
       <aside className="navbar-left">
@@ -13,7 +32,7 @@ const ManagerDashboard = () => {
 
       <main className="main-content">
         <div className="welcome-container">
-          <h1 className="welcome-message">Welcome, Manager!</h1>
+          <h1 className="welcome-message">Welcome, {userName}!</h1>
           <p className="welcome-description">
             Here you can manage your team, approve leave, schedule shifts, and
             more.
