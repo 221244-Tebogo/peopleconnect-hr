@@ -1,0 +1,91 @@
+.auth-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: #3950FF;
+    font-family: "Poppins", sans-serif;
+  }
+  
+  .auth-toggle {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .auth-toggle button {
+    background-color: #f2f2f2;
+    color: #3950FF;
+    border: 1px solid #3950FF;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  
+  .auth-toggle button.active,
+  .auth-toggle button:hover {
+    background-color: #3950FF;
+    color: #fff;
+  }
+  
+  .auth-page form {
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 5px;
+    filter: drop-shadow(0 0 2px #000000);
+    width: 360px;
+  }
+  
+  .auth-page form input,
+  .auth-page form select {
+    outline: 0;
+    background: #f2f2f2;
+    border-radius: 4px;
+    border: none;
+    margin: 10px 0;
+    padding: 12px;
+    font-size: 14px;
+  }
+  
+  .auth-page form input:focus,
+  .auth-page form select:focus {
+    box-shadow: 0 0 5px rgba(106, 98, 210, 0.5);
+  }
+  
+  .auth-page form button {
+    background: #3950FF;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    font-size: 15px;
+  }
+  
+  .auth-page form button:hover {
+    background: black;
+  }
+  
+  .userType-selection {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+  }
+  
+  .userType-selection label {
+    font-size: 14px;
+  }
+  
+  .error {
+    color: red;
+    margin-top: 10px;
+    font-size: 14px;
+    text-align: center;
+  }
+  

@@ -1,4 +1,3 @@
-// src/components/sidebar/HRSidebar.js
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Sidebar.css";
@@ -40,6 +39,7 @@ const HRSidebar = () => {
         <Link to="/hr/announcements" className="link">
           <i className="fa fa-bullhorn" aria-hidden="true"></i> Announcements
         </Link>
+
         <Link to="/hr/employee-list" className="link">
           <i className="fa fa-users" aria-hidden="true"></i> Employee List
         </Link>

@@ -1,7 +1,7 @@
-// frontend/components/Authentication.js
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "./Auth.css";
 
 const API_BASE_URL = "http://localhost:5002/api/auth";
 
@@ -13,7 +13,7 @@ const Authentication = () => {
     name: "",
     surname: "",
     role: "",
-    userType: "", // Added userType field
+    userType: "",
   });
   const [error, setError] = useState("");
   const navigate = useNavigate();

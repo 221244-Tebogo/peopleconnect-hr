@@ -1,8 +1,8 @@
 import React from "react";
 import HRSidebar from "../components/sidebar/HRSidebar";
-import { Link } from "react-router-dom"; // Assuming React Router for navigation
+import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./AdminDashboard.css"; // Import your CSS for styling
+import "./AdminDashboard.css";
 
 const HRAdminDashboard = () => {
   return (

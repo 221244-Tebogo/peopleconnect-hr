@@ -17,11 +17,9 @@ const EmployeeList = () => {
     role: "employee",
   });
 
-  // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const employeesPerPage = 10;
 
-  // Fetch employees on mount
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
@@ -66,12 +64,10 @@ const EmployeeList = () => {
     setEditEmployee(null);
   };
 
-  // Handle adding or updating an employee
   const handleSaveEmployee = async () => {
     const token = localStorage.getItem("token");
     try {
       if (editEmployee) {
-        // Update existing employee
         await axios.put(
           `http://localhost:5002/api/users/${editEmployee._id}`,
           newEmployee,
@@ -83,7 +79,6 @@ const EmployeeList = () => {
           )
         );
       } else {
-        // Add new employee
         const response = await axios.post(
           "http://localhost:5002/api/users",
           newEmployee,
@@ -98,7 +93,6 @@ const EmployeeList = () => {
     }
   };
 
-  // Handle deleting an employee
   const handleDelete = async (id) => {
     try {
       const token = localStorage.getItem("token");
@@ -112,7 +106,6 @@ const EmployeeList = () => {
     }
   };
 
-  // Pagination handlers
   const indexOfLastEmployee = currentPage * employeesPerPage;
   const indexOfFirstEmployee = indexOfLastEmployee - employeesPerPage;
   const currentEmployees = employees.slice(
@@ -178,7 +171,6 @@ const EmployeeList = () => {
           </tbody>
         </table>
 
-        {/* Pagination Controls */}
         <div className="d-flex justify-content-between">
           <Button onClick={handlePrevPage} disabled={currentPage === 1}>
             Previous
@@ -192,7 +184,6 @@ const EmployeeList = () => {
           </Button>
         </div>
 
-        {/* Modal for Adding/Editing Employee */}
         <Modal show={showModal} onHide={handleModalClose}>
           <Modal.Header closeButton>
             <Modal.Title>
