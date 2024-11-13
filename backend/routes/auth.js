@@ -1,20 +1,18 @@
-// Backend - routes/auth.js
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const User = require("../models/User"); // Import the User model
+const User = require("../models/User");
 
 const router = express.Router();
 
-// routes/auth.js - Registration endpoint
 router.post("/register", async (req, res) => {
-  const { name, email, password, role, userType } = req.body; // Added userType
+  const { name, email, password, role, userType } = req.body;
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser)
       return res.status(400).json({ message: "User already exists" });
 
-    const newUser = new User({ name, email, password, role, userType }); // Added userType
+    const newUser = new User({ name, email, password, role, userType });
     await newUser.save();
 
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
@@ -27,7 +25,6 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// Login endpoint
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {

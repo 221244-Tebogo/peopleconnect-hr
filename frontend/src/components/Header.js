@@ -1,4 +1,3 @@
-// src/components/Header.js
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -7,7 +6,7 @@ const Header = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate("/"); // Redirect to login page
+    navigate("/");
   };
 
   return (

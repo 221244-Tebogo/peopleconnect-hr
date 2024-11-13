@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Auth.css";
+import logo from "../assets/Logo.svg";
 
 const API_BASE_URL = "http://localhost:5002/api/auth";
 
@@ -72,29 +73,43 @@ const Authentication = () => {
   };
 
   return (
-    <div className="auth-page">
+    <div
+      className="auth-page d-flex flex-column align-items-center justify-content-center text-center"
+      style={{ color: "white" }}
+    >
+      <img src={logo} alt="Logo" className="auth-logo mb-4" />
       {isLoggedIn ? (
         <div>
-          <h1>Welcome, you've just logged in</h1>
-          <button onClick={handleLogout}>Logout</button>
+          <h1 style={{ color: "white" }}>Controlled Area Access</h1>
+          <p style={{ color: "white" }}>
+            You have successfully logged in. Please proceed to your dashboard
+            for secure access to app features.
+          </p>
+          <button onClick={handleLogout} className="btn btn-primary mt-3">
+            Confirm Access
+          </button>
         </div>
       ) : (
         <div>
-          <div className="auth-toggle">
+          <div className="auth-toggle mb-3">
             <button
               onClick={() => setIsLogin(true)}
-              className={isLogin ? "active" : ""}
+              className={`btn ${
+                isLogin ? "btn-primary" : "btn-outline-primary"
+              } m-1`}
             >
               Login
             </button>
             <button
               onClick={() => setIsLogin(false)}
-              className={!isLogin ? "active" : ""}
+              className={`btn ${
+                !isLogin ? "btn-primary" : "btn-outline-primary"
+              } m-1`}
             >
               Register
             </button>
           </div>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="text-center">
             {!isLogin && (
               <>
                 <input
@@ -105,6 +120,8 @@ const Authentication = () => {
                     setFormData({ ...formData, name: e.target.value })
                   }
                   required
+                  style={{ color: "white", backgroundColor: "transparent" }}
+                  className="mb-2 form-control"
                 />
                 <input
                   type="text"
@@ -114,6 +131,8 @@ const Authentication = () => {
                     setFormData({ ...formData, surname: e.target.value })
                   }
                   required
+                  style={{ color: "white", backgroundColor: "transparent" }}
+                  className="mb-2 form-control"
                 />
               </>
             )}
@@ -125,6 +144,8 @@ const Authentication = () => {
                 setFormData({ ...formData, email: e.target.value })
               }
               required
+              style={{ color: "white", backgroundColor: "transparent" }}
+              className="mb-2 form-control"
             />
             <input
               type="password"
@@ -134,16 +155,20 @@ const Authentication = () => {
                 setFormData({ ...formData, password: e.target.value })
               }
               required
+              style={{ color: "white", backgroundColor: "transparent" }}
+              className="mb-2 form-control"
             />
             {!isLogin && (
               <>
-                <label>Select Role:</label>
+                <label style={{ color: "white" }}>Select Role:</label>
                 <select
                   name="role"
                   onChange={(e) =>
                     setFormData({ ...formData, role: e.target.value })
                   }
                   required
+                  style={{ color: "white", backgroundColor: "transparent" }}
+                  className="mb-2 form-control"
                 >
                   <option value="">Select Role</option>
                   <option value="hr">HR</option>
@@ -151,8 +176,8 @@ const Authentication = () => {
                   <option value="employee">Employee</option>
                 </select>
 
-                <label>Select Employee Type:</label>
-                <div className="userType-selection">
+                <label style={{ color: "white" }}>Select Employee Type:</label>
+                <div className="userType-selection" style={{ color: "white" }}>
                   <label>
                     <input
                       type="radio"
@@ -165,7 +190,7 @@ const Authentication = () => {
                     />
                     Office
                   </label>
-                  <label>
+                  <label className="ms-3">
                     <input
                       type="radio"
                       name="userType"
@@ -180,8 +205,14 @@ const Authentication = () => {
                 </div>
               </>
             )}
-            <button type="submit">{isLogin ? "Login" : "Register"}</button>
-            {error && <p className="error">{error}</p>}
+            <button type="submit" className="btn btn-primary mt-3">
+              {isLogin ? "Login" : "Register"}
+            </button>
+            {error && (
+              <p className="error" style={{ color: "red" }}>
+                {error}
+              </p>
+            )}
           </form>
         </div>
       )}

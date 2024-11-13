@@ -1,26 +1,21 @@
 import React from "react";
-import { Link } from "react-router-dom";
-// import "./NotFound.css";
+import { useNavigate } from "react-router-dom";
+import logo from "../assets/Logo.svg";
+import "./NotFound.css";
 
-const NotFound = () => {
+const PageNotFound = () => {
+  const navigate = useNavigate();
+
   return (
-    <div className="not-found-container">
-      <h1>404</h1>
-      <h2>Oops! Page Not Found</h2>
-      <p>
-        It seems that the page you are looking for does not exist. It might have
-        been moved or deleted.
-      </p>
-      <div className="button-container">
-        <Link to="/" className="button">
-          Home
-        </Link>
-        <Link to="/contact" className="button">
-          Contact Us
-        </Link>
-      </div>
+    <div className="page-not-found">
+      <img src={logo} alt="Logo" className="logo" />
+      <h1>Oops! Page Not Found</h1>
+      <p>The page you're looking for doesn't exist or may have been moved.</p>
+      <button className="btn-primary" onClick={() => navigate("/")}>
+        Go to Homepage
+      </button>
     </div>
   );
 };
 
-export default NotFound;
+export default PageNotFound;

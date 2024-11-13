@@ -1,4 +1,3 @@
-// src/components/HRDashboard.js
 import React from "react";
 import HRSidebar from "./sidebar/HRSidebar";
 

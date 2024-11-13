@@ -1,4 +1,3 @@
-// src/components/Career.js
 import React, { useState, useEffect } from "react";
 import EmployeeSidebar from "../components/sidebar/EmployeeSidebar";
 import axios from "axios";
@@ -68,7 +67,6 @@ const Career = () => {
     }
   };
 
-  // Fetch all job positions
   const fetchPositions = async () => {
     try {
       const response = await axios.get("/api/careers", {
