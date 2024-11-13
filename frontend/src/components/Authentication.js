@@ -120,7 +120,7 @@ const Authentication = () => {
                     setFormData({ ...formData, name: e.target.value })
                   }
                   required
-                  style={{ color: "white", backgroundColor: "transparent" }}
+                  style={{ color: "black", backgroundColor: "transparent" }}
                   className="mb-2 form-control"
                 />
                 <input

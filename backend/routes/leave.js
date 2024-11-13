@@ -1,29 +1,19 @@
+// backend/routes/leave.js
 const express = require("express");
 const multer = require("multer");
-const moment = require("moment");
 const auth = require("../middleware/auth");
 const Leave = require("../models/Leave");
-const User = require("../models/User"); // Ensure User model is imported
+const User = require("../models/User");
 
 const router = express.Router();
 const upload = multer({ dest: "public/leave-docs/" });
 
-// Apply for leave with weekend restriction for office employees
+// Apply for leave
 router.post("/apply", auth, upload.single("document"), async (req, res) => {
   const { leaveType, startDate, endDate, reason } = req.body;
   const documentUrl = req.file ? `/leave-docs/${req.file.filename}` : null;
 
   try {
-    const user = await User.findById(req.user.id);
-    const startDay = moment(startDate).day();
-
-    // Restrict office employees from applying for leave on weekends
-    if (user.userType === "office" && (startDay === 0 || startDay === 6)) {
-      return res.status(400).json({
-        message: "Office employees cannot apply for leave on weekends.",
-      });
-    }
-
     const leaveApplication = new Leave({
       employeeId: req.user.id,
       leaveType,
@@ -42,12 +32,36 @@ router.post("/apply", auth, upload.single("document"), async (req, res) => {
   }
 });
 
+// leave balance
+router.get("/balance", auth, async (req, res) => {
+  try {
+    // Assuming the User model includes a leaveBalance field
+    const user = await User.findById(req.user.id).select("leaveBalance");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json({ leaveBalance: user.leaveBalance });
+  } catch (error) {
+    console.error("Error fetching leave balance:", error.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+// users history leave balance
+router.get("/history", auth, async (req, res) => {
+  try {
+    const leaveHistory = await Leave.find({ employeeId: req.user.id });
+    res.json(leaveHistory);
+  } catch (error) {
+    console.error("Error fetching leave history:", error.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 // View leave applications (Manager and HR)
 router.get("/view", auth, async (req, res) => {
   try {
-    const leaveApplications = await Leave.find({
-      $or: [{ managerId: req.user.id }, { role: "hr" }], // Filter for manager or HR
-    });
+    const leaveApplications = await Leave.find({});
     res.json(leaveApplications);
   } catch (error) {
     console.error("Error fetching leave applications:", error.message);

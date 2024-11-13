@@ -26,6 +26,7 @@ const userRoutes = require("./routes/user");
 const trainingRoutes = require("./routes/training");
 const announcementRoutes = require("./routes/announcements");
 const profileRoutes = require("./routes/profile");
+const leaveRoutes = require("./routes/leave");
 
 // Use routes
 app.use("/api/auth", authRoutes);
@@ -35,6 +36,7 @@ app.use("/api/training", trainingRoutes);
 app.use("/api/announcements", announcementRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/public", express.static("public"));
+app.use("/api/leaves", leaveRoutes);
 
 // Start the server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
