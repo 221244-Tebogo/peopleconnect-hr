@@ -1,14 +1,23 @@
-// backend/routes/career.js
+// routes/careers.js
 const express = require("express");
 const auth = require("../middleware/auth");
-const multer = require("multer");
 const JobPosting = require("../models/JobPosting");
 
 const router = express.Router();
-const upload = multer({ dest: "public/jobs/" }); // Define where files should be stored
 
-// Route to handle job posting with PDF upload
-router.post("/", auth, upload.single("file"), async (req, res) => {
+// Route to get all job postings
+router.get("/", auth, async (req, res) => {
+  try {
+    const jobs = await JobPosting.find(); // Fetch all jobs from the database
+    res.json(jobs);
+  } catch (error) {
+    console.error("Error fetching job postings:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// Route to create a new job posting (already defined)
+router.post("/", auth, async (req, res) => {
   const {
     title,
     description,
@@ -17,11 +26,10 @@ router.post("/", auth, upload.single("file"), async (req, res) => {
     salaryRange,
     applicationDeadline,
   } = req.body;
-  const pdfUrl = req.file ? `/jobs/${req.file.filename}` : null; // Ensure `req.file` is handled correctly
 
   try {
     if (req.user.role !== "hr" && req.user.role !== "admin") {
-      return res.status(401).json({ msg: "User not authorized" });
+      return res.status(401).json({ message: "User not authorized" });
     }
 
     const newJob = new JobPosting({
@@ -31,15 +39,14 @@ router.post("/", auth, upload.single("file"), async (req, res) => {
       location,
       salaryRange,
       applicationDeadline,
-      pdfUrl, // Add the file URL to the job post
       postedBy: req.user.id,
     });
 
     const job = await newJob.save();
     res.json(job);
-  } catch (err) {
-    console.error("Server Error:", err.message);
-    res.status(500).send("Server Error");
+  } catch (error) {
+    console.error("Server Error:", error.message);
+    res.status(500).json({ message: "Server error" });
   }
 });
 

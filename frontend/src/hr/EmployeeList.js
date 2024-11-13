@@ -24,6 +24,11 @@ const EmployeeList = () => {
     const fetchEmployees = async () => {
       try {
         const token = localStorage.getItem("token");
+        if (!token) {
+          setError("Authorization error: Please log in.");
+          return;
+        }
+
         const response = await axios.get("http://localhost:5002/api/users", {
           headers: { Authorization: `Bearer ${token}` },
         });

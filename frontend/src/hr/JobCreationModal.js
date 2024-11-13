@@ -1,4 +1,3 @@
-// src/hr/JobCreationModal.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -21,6 +20,7 @@ const JobCreationModal = ({ fetchPositions, closeModal, editPosition }) => {
     "Security",
     "Human Resources",
     "Food & Beverage",
+    "Hotel",
   ];
 
   useEffect(() => {
@@ -57,8 +57,8 @@ const JobCreationModal = ({ fetchPositions, closeModal, editPosition }) => {
         },
       });
 
-      fetchPositions(); // Refresh job list after creation or update
-      closeModal(); // Close modal after operation
+      fetchPositions();
+      closeModal();
     } catch (error) {
       console.error("Error creating/updating position:", error);
       alert("There was an error processing your request. Please try again.");

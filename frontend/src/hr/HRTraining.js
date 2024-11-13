@@ -17,6 +17,7 @@ const HRTraining = () => {
     description: "",
     duration: "",
   });
+
   const [showAssignModal, setShowAssignModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [assignments, setAssignments] = useState([]);
@@ -27,15 +28,6 @@ const HRTraining = () => {
     fetchTrainingPrograms();
     fetchAssignments();
   }, []);
-
-  const fetchTrainingPrograms = async () => {
-    try {
-      const response = await axios.get("/api/training/programs");
-      setTrainingPrograms(response.data);
-    } catch (err) {
-      console.error("Error fetching training programs:", err);
-    }
-  };
 
   const fetchAssignments = async () => {
     const token = localStorage.getItem("token");
@@ -49,6 +41,21 @@ const HRTraining = () => {
       setAssignments(response.data);
     } catch (err) {
       console.error("Error fetching assignments:", err);
+    }
+  };
+
+  const fetchTrainingPrograms = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        "http://localhost:5002/api/training/programs",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setTrainingPrograms(response.data);
+    } catch (err) {
+      console.error("Error fetching training programs:", err);
     }
   };
 
@@ -68,8 +75,10 @@ const HRTraining = () => {
 
   const handleSave = async () => {
     try {
-      await axios.put(`/api/training/programs/${editingProgram}`, formData);
-      fetchTrainingPrograms();
+      await axios.put(`/api/training/programs/${editingProgram}`, formData, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      fetchTrainingPrograms(); // Refresh training program list
       setShowEditModal(false);
       setEditingProgram(null);
     } catch (err) {

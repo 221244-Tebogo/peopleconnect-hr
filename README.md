@@ -97,6 +97,6 @@ Refer to:
 - [Deployment Guide](https://facebook.github.io/create-react-app/docs/deployment)
 - [Advanced Configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
----
+## Contacts
 
-> **Note**: Replace `./path/to/...` in the image paths with the actual path to each image in your project directory. Let me know if you'd like more customization!
+For more information, you can connect with the developer on [LinkedIn](https://www.linkedin.com/in/mohau-ramolobeng-352a2854/).

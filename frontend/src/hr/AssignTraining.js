@@ -13,12 +13,11 @@ const AssignTraining = ({ onClose, onSave }) => {
   const [trainingPrograms, setTrainingPrograms] = useState([]);
   const [selectedDates, setSelectedDates] = useState([null, null]);
   const [error, setError] = useState(null);
-
   useEffect(() => {
     const fetchEmployeesAndPrograms = async () => {
       try {
         const token = localStorage.getItem("token");
-        if (!token) throw new Error("Token not found. Please log in.");
+        if (!token) throw new Error("No authorization token found");
 
         const [employeesRes, programsRes] = await Promise.all([
           axios.get("http://localhost:5002/api/users", {
@@ -31,9 +30,8 @@ const AssignTraining = ({ onClose, onSave }) => {
 
         setEmployees(employeesRes.data);
         setTrainingPrograms(programsRes.data);
-      } catch (err) {
-        console.error("Error fetching data:", err);
-        setError("Failed to load data.");
+      } catch (error) {
+        console.error("Error loading data:", error);
       }
     };
 
@@ -71,8 +69,8 @@ const AssignTraining = ({ onClose, onSave }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const token = localStorage.getItem("token");
     try {
-      const token = localStorage.getItem("token");
       await axios.post("http://localhost:5002/api/training/assign", taskData, {
         headers: { Authorization: `Bearer ${token}` },
       });

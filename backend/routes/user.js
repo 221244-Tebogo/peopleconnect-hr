@@ -1,7 +1,7 @@
 // routes/user.js
 const express = require("express");
 const User = require("../models/User");
-const auth = require("../middleware/auth"); // Import auth middleware to check authentication and role
+const auth = require("../middleware/auth");
 const router = express.Router();
 
 // Get all registered users
@@ -15,11 +15,9 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
-// Update a user's information
 router.put("/:id", auth, async (req, res) => {
   const { name, surname, email } = req.body;
 
-  // Ensure only HR role can perform this action
   if (req.user.role !== "hr") {
     return res.status(403).json({ message: "Access denied" });
   }
@@ -43,7 +41,6 @@ router.put("/:id", auth, async (req, res) => {
 
 // Delete a user
 router.delete("/:id", auth, async (req, res) => {
-  // Ensure only HR role can perform this action
   if (req.user.role !== "hr") {
     return res.status(403).json({ message: "Access denied" });
   }

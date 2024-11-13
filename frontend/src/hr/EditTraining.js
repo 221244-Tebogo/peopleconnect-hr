@@ -36,12 +36,14 @@ const EditTraining = ({ onClose, onSave, assignmentToEdit }) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
     try {
-      const response = await axios.put(
+      await axios.put(
         `http://localhost:5002/api/training/assign/${assignmentToEdit._id}`,
         taskData,
-        { headers: { Authorization: `Bearer ${token}` } }
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
-      onSave(response.data.assignment);
+      onSave();
       onClose();
     } catch (error) {
       console.error("Error updating assignment:", error);
