@@ -11,7 +11,7 @@ const ManagerDashboard = () => {
       try {
         const response = await axios.get("http://localhost:5002/api/profile", {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`, // Assuming the token is stored in localStorage
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
         const { name } = response.data;

@@ -2,10 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Link, Outlet } from "react-router-dom";
 import axios from "axios";
 import EmployeeSidebar from "../components/sidebar/EmployeeSidebar";
-import "./Dashboard.css"; // Assuming App.css has all global styles
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./Dashboard.css";
 
-const Dashboard = () => {
-  const [userData, setUserData] = useState({ name: "User", role: "Employee" });
+const EmployeeDashboard = () => {
+  const [userData, setUserData] = useState({
+    name: "Employee",
+    role: "Employee",
+  });
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -17,10 +21,11 @@ const Dashboard = () => {
       }
 
       try {
-        const res = await axios.get("http://localhost:5001/api/users/me", {
+        const res = await axios.get("http://localhost:5002/api/users/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUserData(res.data);
+        console.log("User Data:", res.data); // Debugging console log
       } catch (err) {
         console.error("Error fetching user data:", err);
         setError("Failed to fetch user data");
@@ -30,45 +35,83 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="app-container">
+    <div className="d-flex">
       <EmployeeSidebar />
-      <div className="main-content">
-        <div className="welcome-section">
-          <h1 className="welcome-message">Welcome, {userData.name}</h1>
+
+      <main className="main-content container">
+        <div className="welcome-container text-center my-4">
+          <h1 className="welcome-message">
+            Welcome, {userData.name || "Employee"}!
+          </h1>
           <p className="welcome-description">
-            Access your dashboard for managing tasks and updates.
+            Access your dashboard to manage your tasks, view updates, and track
+            your progress.
           </p>
         </div>
 
         {error ? (
-          <p className="error-message">{error}</p>
+          <p className="alert alert-danger">{error}</p>
         ) : (
-          <div className="dashboard-actions-grid">
-            <Link className="dashboard-btn" to="/hr/HRMainDashboard/createpost">
-              <i className="fa fa-plus-circle" aria-hidden="true"></i>
-              <span>Create Post</span>
-            </Link>
-            <Link
-              className="dashboard-btn"
-              to="/hr/HRMainDashboard/manageleave"
-            >
-              <i className="fa fa-calendar" aria-hidden="true"></i>
-              <span>Manage Leave</span>
-            </Link>
-            <Link className="dashboard-btn" to="/hr/HRMainDashboard/reporting">
-              <i className="fa fa-chart-bar" aria-hidden="true"></i>
-              <span>Reporting</span>
-            </Link>
-            <Link className="dashboard-btn" to="/hr/HRMainDashboard/career">
-              <i className="fa fa-briefcase" aria-hidden="true"></i>
-              <span>Careers</span>
-            </Link>
+          <div className="dashboard-cards row text-center">
+            <div className="dashboard-card col-md-3 mb-4">
+              <Link
+                to="/employee/leave-management"
+                className="card h-100 shadow-sm"
+              >
+                <div className="card-body">
+                  <i className="fa fa-history fa-2x mb-3"></i>
+                  <h5 className="card-title">Leave History</h5>
+                  <p className="card-text">
+                    View your leave balance and history.
+                  </p>
+                </div>
+              </Link>
+            </div>
+
+            <div className="dashboard-card col-md-3 mb-4">
+              <Link to="/employee/training" className="card h-100 shadow-sm">
+                <div className="card-body">
+                  <i className="fa fa-user-graduate fa-2x mb-3"></i>
+                  <h5 className="card-title">Training</h5>
+                  <p className="card-text">
+                    Track your assigned training programs.
+                  </p>
+                </div>
+              </Link>
+            </div>
+
+            <div className="dashboard-card col-md-3 mb-4">
+              <Link to="/employee/career" className="card h-100 shadow-sm">
+                <div className="card-body">
+                  <i className="fa fa-briefcase fa-2x mb-3"></i>
+                  <h5 className="card-title">Career Development</h5>
+                  <p className="card-text">
+                    Monitor your career growth and performance.
+                  </p>
+                </div>
+              </Link>
+            </div>
+
+            <div className="dashboard-card col-md-3 mb-4">
+              <Link
+                to="/employee/announcements"
+                className="card h-100 shadow-sm"
+              >
+                <div className="card-body">
+                  <i className="fa fa-bullhorn fa-2x mb-3"></i>
+                  <h5 className="card-title">Announcements</h5>
+                  <p className="card-text">
+                    Stay updated with the latest company news.
+                  </p>
+                </div>
+              </Link>
+            </div>
           </div>
         )}
         <Outlet />
-      </div>
+      </main>
     </div>
   );
 };
 
-export default Dashboard;
+export default EmployeeDashboard;
