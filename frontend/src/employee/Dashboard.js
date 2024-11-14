@@ -25,7 +25,7 @@ const EmployeeDashboard = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUserData(res.data);
-        console.log("User Data:", res.data); // Debugging console log
+        console.log("User Data:", res.data);
       } catch (err) {
         console.error("Error fetching user data:", err);
         setError("Failed to fetch user data");
@@ -35,10 +35,9 @@ const EmployeeDashboard = () => {
   }, []);
 
   return (
-    <div className="d-flex">
+    <div className="app-container">
       <EmployeeSidebar />
-
-      <main className="main-content container">
+      <div className="main-content">
         <div className="welcome-container text-center my-4">
           <h1 className="welcome-message">
             Welcome, {userData.name || "Employee"}!
@@ -55,12 +54,12 @@ const EmployeeDashboard = () => {
           <div className="dashboard-cards row text-center">
             <div className="dashboard-card col-md-3 mb-4">
               <Link
-                to="/employee/leave-management"
+                to="/employee/employee-leave"
                 className="card h-100 shadow-sm"
               >
                 <div className="card-body">
-                  <i className="fa fa-history fa-2x mb-3"></i>
-                  <h5 className="card-title">Leave History</h5>
+                  <i className="fa fa-calendar fa-2x mb-3"></i>
+                  <h5 className="card-title">Leave Management</h5>
                   <p className="card-text">
                     View your leave balance and history.
                   </p>
@@ -71,7 +70,7 @@ const EmployeeDashboard = () => {
             <div className="dashboard-card col-md-3 mb-4">
               <Link to="/employee/training" className="card h-100 shadow-sm">
                 <div className="card-body">
-                  <i className="fa fa-user-graduate fa-2x mb-3"></i>
+                  <i className="fa fa-chalkboard-teacher fa-2x mb-3"></i>
                   <h5 className="card-title">Training</h5>
                   <p className="card-text">
                     Track your assigned training programs.
@@ -109,7 +108,7 @@ const EmployeeDashboard = () => {
           </div>
         )}
         <Outlet />
-      </main>
+      </div>
     </div>
   );
 };

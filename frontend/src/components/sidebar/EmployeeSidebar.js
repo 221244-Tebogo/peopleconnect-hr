@@ -7,6 +7,7 @@ const EmployeeSidebar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
+    localStorage.removeItem("token"); // Clear token from storage
     navigate("/login");
   };
 
@@ -25,7 +26,6 @@ const EmployeeSidebar = () => {
         <Link to="/employee/employee-leave" className="link">
           <i className="fa fa-calendar" aria-hidden="true"></i> Leave Management
         </Link>
-
         <Link to="/employee/schedule" className="link">
           <i className="fa fa-clock" aria-hidden="true"></i> My Schedule
         </Link>

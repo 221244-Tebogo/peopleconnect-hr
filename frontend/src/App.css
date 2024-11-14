@@ -1,367 +1,82 @@
-/* App.css */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap');
 
-/* Color variables */
+.App {
+  text-align: center;
+  padding-left: 30px; 
+  padding-right: 30px; 
+}
+
+.App-header {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+}
+
+
+
+/* Global styles */
+body {
+    background: radial-gradient(circle, #cbe6f867 0%, #8aaec653 65%);
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
 :root {
-  --primary-color: #3950ff;
-  --sidebar-bg-color: #3950ff;
-  --sidebar-link-hover: #34495e;
-  --button-hover: #c0392b;
-  --white: #ffffff;
-  --danger-color: #e74c3c;
-  --header-bg: #34A1F0;
+    --primary-color: #3950ff;
+    --sidebar-bg-color: #3950ff;
+    --sidebar-link-hover: #34495e;
+    --button-hover: #c0392b;
+    --white: #ffffff;
+    --danger-color: #e74c3c;
+    --header-bg: #3950ff;
+    --card-bg: #3950ff;
+    --card-hover-bg: #e8e9eb;
 }
-
-/* Sidebar */
-.sidebar {
-  width: 250px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  background-color: var(--sidebar-bg-color);
-  padding: 20px;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-}
-
-.logo-container img {
-  width: 200px;
-  margin-bottom: 20px;
-}
-
-.sidebar-links {
-  display: flex;
-  flex-direction: column;
-}
-
-.link {
-  color: var(--white);
-  padding: 15px;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  transition: background-color 0.3s ease;
-}
-
-.link i {
-  margin-right: 10px;
-}
-
-.link:hover {
-  background-color: var(--sidebar-link-hover);
-}
-
-.logout-btn {
-  margin-top: auto;
-  padding: 10px;
-  background-color: var(--danger-color);
-  color: var(--white);
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  text-align: center;
-  border-radius: 4px;
-}
-
-.logout-btn:hover {
-  background-color: var(--button-hover);
-}
-
-/* Global Layout */
-.main-content {
-  margin-left: 270px;
-  padding: 20 40px;
-  height: 100vh;
-  overflow-y: auto;
-}
-
-.container-grid {
-  display: grid;
-  grid-template-columns: 1fr auto;
-}
-
-/* Card Styles */
-.dashboard-card,
-.card {
-  background-color: var(--white);
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  transition: transform 0.3s ease;
-}
-
-.card:hover, .dashboard-card:hover {
-  transform: translateY(-5px);
-}
-
-/* Welcome Section */
-.welcome-section {
-  background-color: var(--header-bg);
-  color: var(--white);
-  padding: 30px;
-  border-radius: 10px;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-/* Form Styles */
-.form-container {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 40px;
-  background-color: var(--white);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-}
-
-.submit-button {
-  width: 100%;
-  padding: 15px;
-  background-color: var(--primary-color);
-  color: var(--white);
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 1rem;
-}
-
-.submit-button:hover {
-  background-color: black;
-}
-
-/* Modal Styles */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.75);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background: var(--white);
-  padding: 20px;
-  border-radius: 8px;
-  max-width: 500px;
-  width: 100%;
-}
-
-
-
-/* Sidebar Group */
-.sidebar-group {
-  margin-bottom: 15px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--sidebar-link-hover);
-}
-
-
-/* Dashboard Layout */
-.dashboard-container {
-  display: flex;
-  padding: 20px;
-  background-color: #f9f9f9;
-}
-
-.dashboard-header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.dashboard-header h1 {
-  font-size: 2rem;
-  color: #333;
-}
-
-.dashboard-header p {
-  font-size: 1.2rem;
-  color: #666;
-}
-
-/* Dashboard Actions (Buttons) */
-.dashboard-actions-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 20px;
-  margin-top: 30px;
-}
-
-.dashboard-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  background-color: #007bff;
-  color: white;
-  text-decoration: none;
-  border-radius: 8px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.dashboard-btn:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.dashboard-btn i {
-  font-size: 1.8rem;
-  margin-bottom: 10px;
-}
-
-/* Cards */
-.dashboard-card {
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-.dashboard-card h3 {
-  font-size: 1.4rem;
-  margin-bottom: 10px;
-}
-
-.dashboard-card p {
-  color: #555;
-}
-
-/* Welcome Section */
-.welcome-section {
-  background-color: #007bff;
-  color: white;
-  padding: 30px;
-  border-radius: 10px;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-/* Form Styling */
-.form-container {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 40px;
-  background-color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  font-size: 1.2rem;
-  color: #3950FF;
-  margin-bottom: 10px;
-  display: block;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
-}
-
-.submit-button {
-  width: 100%;
-  padding: 15px;
-  background-color: #3950FF;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: bold;
-}
-
-.submit-button:hover {
-  background-color: black;
-}
-
-/* Modal */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.75);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  max-width: 500px;
-  width: 100%;
-  position: relative;
-}
-
-.modal-close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-}
-
-.page-not-found {
+.App-header {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  text-align: center;
-  padding: 20px;
+  font-size: calc(10px + 2vmin);
 }
 
-.page-not-found .logo {
-  width: 150px; /* Adjust size as needed */
-  margin-bottom: 20px;
+.container {
+  width: 100%;
+  padding: 1.5rem 1rem 1rem;
+  margin-right: auto;
+  margin-left: auto;
+
 }
 
-.page-not-found h1 {
-  font-size: 2.5rem;
-  color: #333;
-  margin-bottom: 10px;
+.content {
+  display: flex;
 }
 
-.page-not-found p {
-  font-size: 1.2rem;
-  color: #555;
-  margin-bottom: 20px;
+.image-container {
+  display: flex;
+  flex-direction: column;
 }
 
-.page-not-found .btn-primary {
-  padding: 10px 20px;
-  font-size: 1rem;
-  color: white;
-  background-color: #007bff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.row {
+  display: flex;
 }
 
-.page-not-found .btn-primary:hover {
-  background-color: #0056b3;
+.row img {
+  width: 20%;
+  margin: 5px; 
 }
 
+.main-container {
+  margin-left: 250px; 
+  padding: 20px; 
+  height: 100%; 
+}
 

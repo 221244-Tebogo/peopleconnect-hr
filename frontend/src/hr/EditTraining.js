@@ -5,7 +5,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const EditTraining = ({ onClose, onSave, assignmentToEdit }) => {
-  // Initialize taskData with formatted date if available
   const [taskData, setTaskData] = useState({
     employee: assignmentToEdit?.employee || "",
     training: assignmentToEdit?.training || "",

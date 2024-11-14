@@ -32,55 +32,56 @@ import Tasks from "./employee/TaskList";
 import Training from "./employee/Training";
 import Career from "./employee/Career";
 import EmployeeLeave from "./employee/EmployeeLeave";
-
 import Announcements from "./employee/Announcements";
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Authentication />} />
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Authentication />} />
 
-        {/* HR Routes */}
-        <Route path="/hr">
-          <Route path="dashboard" element={<AdminDashboard />} />
-          <Route path="employee-list" element={<EmployeeList />} />
-          <Route path="training" element={<HrTraining />} />
-          <Route path="reports" element={<HrReporting />} />
-          <Route path="assign-training" element={<AssignTraining />} />
-          <Route path="profile" element={<HrProfile />} />
-          <Route path="career" element={<HrCareer />} />
-          <Route path="leave" element={<HRLeave />} />
-          <Route path="announcements" element={<HRAnnouncements />} />
-        </Route>
+          {/* HR Routes */}
+          <Route path="/hr">
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="employee-list" element={<EmployeeList />} />
+            <Route path="training" element={<HrTraining />} />
+            <Route path="reports" element={<HrReporting />} />
+            <Route path="assign-training" element={<AssignTraining />} />
+            <Route path="profile" element={<HrProfile />} />
+            <Route path="career" element={<HrCareer />} />
+            <Route path="leave" element={<HRLeave />} />
+            <Route path="announcements" element={<HRAnnouncements />} />
+          </Route>
 
-        {/* Manager Routes */}
-        <Route path="/manager">
-          <Route path="dashboard" element={<ManagerDashboard />} />
-          <Route path="leave-requests" element={<ManagerLeave />} />
-          <Route path="shift-schedule" element={<ManagerShiftSchedule />} />
-          <Route path="reports" element={<TeamReports />} />
-          <Route path="task-management" element={<TaskManagement />} />
-          <Route path="profile" element={<ManagerProfile />} />
-          <Route path="team" element={<ManagerTeam />} />
-          <Route path="announcement" element={<ManagerAnnouncement />} />{" "}
-        </Route>
+          {/* Manager Routes */}
+          <Route path="/manager">
+            <Route path="dashboard" element={<ManagerDashboard />} />
+            <Route path="leave-requests" element={<ManagerLeave />} />
+            <Route path="shift-schedule" element={<ManagerShiftSchedule />} />
+            <Route path="reports" element={<TeamReports />} />
+            <Route path="task-management" element={<TaskManagement />} />
+            <Route path="profile" element={<ManagerProfile />} />
+            <Route path="team" element={<ManagerTeam />} />
+            <Route path="announcement" element={<ManagerAnnouncement />} />
+          </Route>
 
-        {/* Employee Routes */}
-        <Route path="/employee">
-          <Route path="dashboard" element={<EmployeeDashboard />} />
-          <Route path="profile" element={<EmployeeProfile />} />
-          <Route path="schedule" element={<Schedule />} />
-          <Route path="tasks" element={<Tasks />} />
-          <Route path="training" element={<Training />} />
-          <Route path="career" element={<Career />} />
-          <Route path="employee-leave" element={<EmployeeLeave />} />
-          <Route path="announcements" element={<Announcements />} />{" "}
-        </Route>
+          {/* Employee Routes */}
+          <Route path="/employee">
+            <Route path="dashboard" element={<EmployeeDashboard />} />
+            <Route path="profile" element={<EmployeeProfile />} />
+            <Route path="schedule" element={<Schedule />} />
+            <Route path="tasks" element={<Tasks />} />
+            <Route path="training" element={<Training />} />
+            <Route path="career" element={<Career />} />
+            <Route path="employee-leave" element={<EmployeeLeave />} />
+            <Route path="announcements" element={<Announcements />} />
+          </Route>
 
-        {/* Catch-All Route */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+          {/* Catch-All Route */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
     </Router>
   );
 }

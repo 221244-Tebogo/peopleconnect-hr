@@ -65,7 +65,7 @@ const Career = () => {
     <div className="app-container">
       <EmployeeSidebar />
       <div className="main-content">
-        <h1>Career Opportunities</h1>
+        <h2>Career Opportunities</h2>
         <ul>
           {positions.map((position) => (
             <li key={position._id}>
