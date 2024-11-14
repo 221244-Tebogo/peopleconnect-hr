@@ -9,7 +9,7 @@
 .main-content {
   width: 80%;
   padding: 20px;
-  background-color: #f4f6f8;
+  background-color: #ffff;
 }
 
 .welcome-container {
@@ -69,3 +69,53 @@
   font-size: 14px;
   color: #555;
 }
+
+.users-table {
+  margin: 40px auto; /* Increased top margin for better spacing */
+  border-collapse: collapse;
+  width: 90%;
+  max-width: 1000px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #464646;
+  font-family: 'Poppins', sans-serif;
+  border-radius: 10px; /* Added rounded corners for entire table */
+  overflow: hidden; /* Ensures rounded corners apply to contents */
+}
+
+.users-table th,
+.users-table td {
+  border: 1px solid #ddd;
+  padding: 20px;
+  text-align: left;
+  vertical-align: middle; /* Align content vertically */
+}
+
+.users-table th {
+  background-color: #0095D5;
+  color: white;
+  font-weight: bold;
+  padding: 15px;
+}
+
+.users-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.users-table tr:hover {
+  background-color: #f7f7f7; /* Softer hover effect */
+}
+
+.delete-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+  background-color: #e41e1e;
+}
+

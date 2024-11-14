@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./AdminDashboard"; // Import the CSS file for custom styles
 
 const AssignTraining = ({ onClose, onSave }) => {
   const [taskData, setTaskData] = useState({
@@ -13,7 +15,6 @@ const AssignTraining = ({ onClose, onSave }) => {
   const [trainingPrograms, setTrainingPrograms] = useState([]);
   const [selectedDates, setSelectedDates] = useState([null, null]);
 
-  // Fetch employees and training programs
   useEffect(() => {
     const fetchEmployeesAndPrograms = async () => {
       const token = localStorage.getItem("token");
@@ -36,7 +37,6 @@ const AssignTraining = ({ onClose, onSave }) => {
     fetchEmployeesAndPrograms();
   }, []);
 
-  // Handle date range selection and populate sessions
   const handleDateChange = (dates) => {
     setSelectedDates(dates);
     if (dates[0] && dates[1]) {
@@ -56,7 +56,6 @@ const AssignTraining = ({ onClose, onSave }) => {
     }
   };
 
-  // Update time for each session
   const handleTimeChange = (e, index) => {
     const { name, value } = e.target;
     const updatedSessions = taskData.sessions.map((session, i) =>
@@ -65,11 +64,9 @@ const AssignTraining = ({ onClose, onSave }) => {
     setTaskData((prevData) => ({ ...prevData, sessions: updatedSessions }));
   };
 
-  // Submit form to assign training
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Ensure all sessions have start and end times
     const validSessions = taskData.sessions.every(
       (session) => session.startTime && session.endTime
     );
@@ -93,75 +90,120 @@ const AssignTraining = ({ onClose, onSave }) => {
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content">
-        <h2>Assign Training</h2>
+      <div className="modal-content p-4 rounded bg-white shadow">
+        <h2 className="mb-4 text-primary">Assign Training</h2>
         <form onSubmit={handleSubmit}>
-          <label>Employee:</label>
-          <select
-            name="employee"
-            onChange={(e) =>
-              setTaskData({ ...taskData, employee: e.target.value })
-            }
-            required
-          >
-            <option value="">Select Employee</option>
-            {employees.map((emp) => (
-              <option key={emp._id} value={emp._id}>
-                {emp.name} {emp.surname}
-              </option>
-            ))}
-          </select>
-
-          <label>Training Program:</label>
-          <select
-            name="trainingTask"
-            onChange={(e) =>
-              setTaskData({ ...taskData, trainingTask: e.target.value })
-            }
-            required
-          >
-            <option value="">Select Training</option>
-            {trainingPrograms.map((prog) => (
-              <option key={prog._id} value={prog.name}>
-                {prog.name}
-              </option>
-            ))}
-          </select>
-
-          <label>Select Dates:</label>
-          <DatePicker
-            selected={selectedDates[0]}
-            onChange={handleDateChange}
-            startDate={selectedDates[0]}
-            endDate={selectedDates[1]}
-            selectsRange
-            inline
-          />
-
-          {taskData.sessions.map((session, index) => (
-            <div key={index}>
-              <h5>{session.date}</h5>
-              <label>Start Time:</label>
-              <input
-                type="time"
-                name="startTime"
-                value={session.startTime}
-                onChange={(e) => handleTimeChange(e, index)}
-              />
-              <label>End Time:</label>
-              <input
-                type="time"
-                name="endTime"
-                value={session.endTime}
-                onChange={(e) => handleTimeChange(e, index)}
-              />
+          {/* Employee and Program Selection */}
+          <div className="row mb-3">
+            <div className="col-md-6">
+              <label>Employee:</label>
+              <select
+                className="form-select"
+                name="employee"
+                onChange={(e) =>
+                  setTaskData({ ...taskData, employee: e.target.value })
+                }
+                required
+              >
+                <option value="">Select Employee</option>
+                {employees.map((emp) => (
+                  <option key={emp._id} value={emp._id}>
+                    {emp.name} {emp.surname}
+                  </option>
+                ))}
+              </select>
             </div>
-          ))}
+            <div className="col-md-6">
+              <label>Training Program:</label>
+              <select
+                className="form-select"
+                name="trainingTask"
+                onChange={(e) =>
+                  setTaskData({ ...taskData, trainingTask: e.target.value })
+                }
+                required
+              >
+                <option value="">Select Training</option>
+                {trainingPrograms.map((prog) => (
+                  <option key={prog._id} value={prog.name}>
+                    {prog.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
 
-          <button type="submit">Assign</button>
-          <button type="button" onClick={onClose}>
-            Cancel
-          </button>
+          {/* Date Range Picker */}
+          <div className="mb-3">
+            <label>Select Dates:</label>
+            <DatePicker
+              selected={selectedDates[0]}
+              onChange={handleDateChange}
+              startDate={selectedDates[0]}
+              endDate={selectedDates[1]}
+              selectsRange
+              inline
+            />
+          </div>
+
+          {/* Sessions Table */}
+          {taskData.sessions.length > 0 && (
+            <div className="sessions-container mb-3">
+              <h5 className="text-secondary">Sessions</h5>
+              <table className="users-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {taskData.sessions.map((session, index) => (
+                    <tr key={index}>
+                      <td>{session.date}</td>
+                      <td>
+                        <input
+                          type="time"
+                          name="startTime"
+                          value={session.startTime}
+                          onChange={(e) => handleTimeChange(e, index)}
+                          className="form-control"
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="time"
+                          name="endTime"
+                          value={session.endTime}
+                          onChange={(e) => handleTimeChange(e, index)}
+                          className="form-control"
+                        />
+                      </td>
+                      <td>
+                        <button className="delete-button">Delete</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {/* Buttons */}
+          <div className="d-flex justify-content-between mt-4">
+            <button type="submit" className="btn btn-primary">
+              Assign
+            </button>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={onClose}
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       </div>
     </div>

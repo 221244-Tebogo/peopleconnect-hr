@@ -47,7 +47,6 @@ const EditTraining = ({ onClose, onSave, assignmentToEdit }) => {
     fetchEmployeesAndPrograms();
   }, []);
 
-  // Update the time values for each session
   const handleTimeChange = (e, index) => {
     const { name, value } = e.target;
     const updatedSessions = taskData.sessions.map((session, i) =>
@@ -56,7 +55,6 @@ const EditTraining = ({ onClose, onSave, assignmentToEdit }) => {
     setTaskData((prevData) => ({ ...prevData, sessions: updatedSessions }));
   };
 
-  // Render fields for start and end times within each session
   {
     taskData.sessions.map((session, index) => (
       <div key={index}>
@@ -79,17 +77,15 @@ const EditTraining = ({ onClose, onSave, assignmentToEdit }) => {
     ));
   }
 
-  // Update taskData with selected dates and times
   const handleDateChange = (dates) => {
     setSelectedDates(dates);
     if (dates[0] && dates[1]) {
-      // Update taskData.sessions with formatted date range
       const sessions = [];
       let date = new Date(dates[0]);
       while (date <= dates[1]) {
         sessions.push({
-          date: date.toISOString().split("T")[0], // Ensure yyyy-MM-dd format
-          startTime: "", // Optional: can be edited separately
+          date: date.toISOString().split("T")[0],
+          startTime: "",
           endTime: "",
         });
         date.setDate(date.getDate() + 1);
@@ -106,7 +102,6 @@ const EditTraining = ({ onClose, onSave, assignmentToEdit }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if all sessions have startTime and endTime
     const validSessions = taskData.sessions.every(
       (session) => session.startTime && session.endTime
     );

@@ -155,3 +155,79 @@ h2 {
   font-weight: 600;
   font-size: 13px; /* Optional: Adds thickness for emphasis */
 }
+
+
+.card {
+  border-radius: 10px; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease; 
+}
+
+.card:hover {
+  transform: translateY(-5px); 
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); 
+}
+
+.card-title {
+  font-weight: bold;
+  color: #3950FF;
+}
+
+.btn-primary {
+  background-color: #3950FF;
+  border: none;
+  border-radius: 8px;
+}
+
+.btn-primary:hover {
+  background-color: #2e3e9e;
+}
+
+.users-table {
+  margin: 20px auto;
+  border-collapse: collapse;
+  width: 90%;
+  max-width: 1000px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #464646;
+  font-family: 'Poppins', sans-serif;
+}
+
+.users-table th,
+.users-table td {
+  border: 1px solid #ddd;
+  padding: 20px;
+  text-align: left;
+}
+
+.users-table th {
+  background-color: #0095D5;
+  color: white;
+  font-weight: bold;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.users-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.users-table tr:hover {
+  background-color: #ddd;
+}
+
+.delete-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+  background-color: #e41e1e;
+}

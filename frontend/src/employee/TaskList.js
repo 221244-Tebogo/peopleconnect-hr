@@ -1,4 +1,4 @@
-// src/employee/EmployeeTaskManagement.js
+// src/employee/EmployeeTaskManagement.jsssuming employeeId is stored in localStorage
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -15,7 +15,7 @@ const EmployeeTaskManagement = () => {
 
   const fetchTasks = async () => {
     try {
-      const employeeId = localStorage.getItem("employeeId"); // Assuming employeeId is stored in localStorage
+      const employeeId = localStorage.getItem("employeeId");
       const response = await axios.get(
         `http://localhost:5002/api/tasks/assigned/${employeeId}`,
         {
