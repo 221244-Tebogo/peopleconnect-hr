@@ -4,6 +4,7 @@ const multer = require("multer");
 const auth = require("../middleware/auth");
 const Leave = require("../models/Leave");
 const User = require("../models/User");
+const { calculateLeaveBalance } = require("../helpers/leaveCalculations");
 
 const router = express.Router();
 const upload = multer({ dest: "public/leave-docs/" });
@@ -32,18 +33,22 @@ router.post("/apply", auth, upload.single("document"), async (req, res) => {
   }
 });
 
-// leave balance
-router.get("/balance", auth, async (req, res) => {
+// Route to get leave balance based on user type and start date
+router.get("/balance", async (req, res) => {
   try {
-    // Assuming the User model includes a leaveBalance field
-    const user = await User.findById(req.user.id).select("leaveBalance");
+    const userId = req.user._id; // Assumes user ID is in req.user after authentication
+    const user = await User.findById(userId);
+
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ error: "User not found" });
     }
-    res.json({ leaveBalance: user.leaveBalance });
+
+    // Calculate the leave balance based on userType and startDate
+    const leaveBalance = calculateLeaveBalance(user.userType, user.startDate);
+    res.json(leaveBalance);
   } catch (error) {
-    console.error("Error fetching leave balance:", error.message);
-    res.status(500).send("Server Error");
+    console.error("Error fetching leave balance:", error);
+    res.status(500).json({ error: "Failed to fetch leave balance" });
   }
 });
 

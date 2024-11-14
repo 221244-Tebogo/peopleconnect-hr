@@ -1,4 +1,4 @@
-//models/TrainingAssignment
+// models/TrainingAssignment.js
 const mongoose = require("mongoose");
 
 const trainingAssignmentSchema = new mongoose.Schema({
@@ -14,9 +14,9 @@ const trainingAssignmentSchema = new mongoose.Schema({
   },
   sessions: [
     {
-      date: { type: String, required: true },
-      startTime: { type: String, required: true },
-      endTime: { type: String, required: true },
+      date: { type: String, required: true }, // date as yyyy-MM-dd
+      startTime: { type: String, required: true }, // format HH:mm
+      endTime: { type: String, required: true }, // format HH:mm
     },
   ],
 });

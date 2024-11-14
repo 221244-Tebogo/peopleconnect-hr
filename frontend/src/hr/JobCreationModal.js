@@ -2,17 +2,16 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const JobCreationModal = ({ fetchPositions, closeModal, editPosition }) => {
-  const [newPosition, setNewPosition] = useState(
-    editPosition || {
-      title: "",
-      department: "",
-      description: "",
-      duration: "",
-      applicationDeadline: "",
-    }
-  );
+  const [newPosition, setNewPosition] = useState({
+    title: "",
+    department: "",
+    description: "",
+    duration: "",
+    applicationDeadline: "",
+  });
   const [file, setFile] = useState(null);
 
+  // Departments array
   const departments = [
     "Marketing",
     "IT",
@@ -23,8 +22,19 @@ const JobCreationModal = ({ fetchPositions, closeModal, editPosition }) => {
     "Hotel",
   ];
 
+  // Initialize fields when editing
   useEffect(() => {
-    if (editPosition) setNewPosition(editPosition);
+    if (editPosition) {
+      setNewPosition({
+        title: editPosition.title || "",
+        department: editPosition.department || "",
+        description: editPosition.description || "",
+        duration: editPosition.duration || "",
+        applicationDeadline: editPosition.applicationDeadline
+          ? editPosition.applicationDeadline.split("T")[0] // Ensure date format
+          : "",
+      });
+    }
   }, [editPosition]);
 
   const handleChange = (e) => {
@@ -36,6 +46,18 @@ const JobCreationModal = ({ fetchPositions, closeModal, editPosition }) => {
 
   const handleCreateOrUpdate = async (e) => {
     e.preventDefault();
+
+    // Check required fields
+    if (
+      !newPosition.title ||
+      !newPosition.department ||
+      !newPosition.description
+    ) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    // Prepare form data
     const formData = new FormData();
     formData.append("title", newPosition.title);
     formData.append("department", newPosition.department);
@@ -50,7 +72,10 @@ const JobCreationModal = ({ fetchPositions, closeModal, editPosition }) => {
         : "http://localhost:5002/api/careers";
       const method = editPosition ? "put" : "post";
 
-      await axios[method](url, formData, {
+      await axios({
+        method,
+        url,
+        data: formData,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "multipart/form-data",

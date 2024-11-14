@@ -29,7 +29,7 @@ const ManagerSidebar = () => {
         <Link to="/manager/reports" className="link">
           <i className="fa fa-chart-line" aria-hidden="true"></i> Reports
         </Link>
-        <Link to="/manager/announcements" className="link">
+        <Link to="/manager/announcement" className="link">
           <i className="fa fa-bullhorn" aria-hidden="true"></i> Announcements
         </Link>
         <Link to="/manager/profile" className="link">

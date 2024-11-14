@@ -12,13 +12,12 @@ const AssignTraining = ({ onClose, onSave }) => {
   const [employees, setEmployees] = useState([]);
   const [trainingPrograms, setTrainingPrograms] = useState([]);
   const [selectedDates, setSelectedDates] = useState([null, null]);
-  const [error, setError] = useState(null);
+
+  // Fetch employees and training programs
   useEffect(() => {
     const fetchEmployeesAndPrograms = async () => {
+      const token = localStorage.getItem("token");
       try {
-        const token = localStorage.getItem("token");
-        if (!token) throw new Error("No authorization token found");
-
         const [employeesRes, programsRes] = await Promise.all([
           axios.get("http://localhost:5002/api/users", {
             headers: { Authorization: `Bearer ${token}` },
@@ -27,7 +26,6 @@ const AssignTraining = ({ onClose, onSave }) => {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);
-
         setEmployees(employeesRes.data);
         setTrainingPrograms(programsRes.data);
       } catch (error) {
@@ -38,19 +36,18 @@ const AssignTraining = ({ onClose, onSave }) => {
     fetchEmployeesAndPrograms();
   }, []);
 
+  // Handle date range selection and populate sessions
   const handleDateChange = (dates) => {
     setSelectedDates(dates);
-    if (dates && dates[0] && dates[1]) {
-      const start = dates[0];
-      const end = dates[1];
+    if (dates[0] && dates[1]) {
       const sessions = [];
       for (
-        let date = new Date(start);
-        date <= end;
+        let date = new Date(dates[0]);
+        date <= dates[1];
         date.setDate(date.getDate() + 1)
       ) {
         sessions.push({
-          date: new Date(date).toISOString().split("T")[0],
+          date: date.toISOString().split("T")[0],
           startTime: "",
           endTime: "",
         });
@@ -59,6 +56,7 @@ const AssignTraining = ({ onClose, onSave }) => {
     }
   };
 
+  // Update time for each session
   const handleTimeChange = (e, index) => {
     const { name, value } = e.target;
     const updatedSessions = taskData.sessions.map((session, i) =>
@@ -67,8 +65,20 @@ const AssignTraining = ({ onClose, onSave }) => {
     setTaskData((prevData) => ({ ...prevData, sessions: updatedSessions }));
   };
 
+  // Submit form to assign training
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Ensure all sessions have start and end times
+    const validSessions = taskData.sessions.every(
+      (session) => session.startTime && session.endTime
+    );
+
+    if (!validSessions) {
+      alert("All sessions must have a start time and end time.");
+      return;
+    }
+
     const token = localStorage.getItem("token");
     try {
       await axios.post("http://localhost:5002/api/training/assign", taskData, {
@@ -78,7 +88,6 @@ const AssignTraining = ({ onClose, onSave }) => {
       onClose();
     } catch (error) {
       console.error("Error assigning training:", error);
-      alert("Failed to assign training. Please try again.");
     }
   };
 

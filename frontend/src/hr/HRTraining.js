@@ -1,11 +1,7 @@
-// src/hr/HRTraining.js
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import HRSidebar from "../components/sidebar/HRSidebar";
 import "bootstrap/dist/css/bootstrap.min.css";
-
-// Components for modals
 import AssignTraining from "./AssignTraining";
 import EditTraining from "./EditTraining";
 
@@ -23,7 +19,6 @@ const HRTraining = () => {
   const [assignments, setAssignments] = useState([]);
   const [trainingToEdit, setTrainingToEdit] = useState(null);
 
-  // Fetching training programs and assignments
   useEffect(() => {
     fetchTrainingPrograms();
     fetchAssignments();
@@ -45,8 +40,8 @@ const HRTraining = () => {
   };
 
   const fetchTrainingPrograms = async () => {
+    const token = localStorage.getItem("token");
     try {
-      const token = localStorage.getItem("token");
       const response = await axios.get(
         "http://localhost:5002/api/training/programs",
         {
@@ -74,11 +69,20 @@ const HRTraining = () => {
   };
 
   const handleSave = async () => {
+    if (!editingProgram) {
+      console.error("Error: Program ID is not set.");
+      return;
+    }
+    const token = localStorage.getItem("token");
     try {
-      await axios.put(`/api/training/programs/${editingProgram}`, formData, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      });
-      fetchTrainingPrograms(); // Refresh training program list
+      await axios.put(
+        `http://localhost:5002/api/training/programs/${editingProgram}`,
+        formData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      fetchTrainingPrograms();
       setShowEditModal(false);
       setEditingProgram(null);
     } catch (err) {
@@ -103,15 +107,12 @@ const HRTraining = () => {
       <HRSidebar />
       <div className="main-content">
         <h2>Manage Trainings</h2>
-
         <button
           className="btn btn-success mb-3"
           onClick={() => setShowAssignModal(true)}
         >
           Assign New Training
         </button>
-
-        {/* Training Programs List */}
         <ul>
           {trainingPrograms.map((program) => (
             <li key={program._id}>
@@ -122,8 +123,6 @@ const HRTraining = () => {
             </li>
           ))}
         </ul>
-
-        {/* Detailed Table for Assigned Trainings */}
         <h3>Assigned Trainings</h3>
         <table className="table table-bordered">
           <thead>

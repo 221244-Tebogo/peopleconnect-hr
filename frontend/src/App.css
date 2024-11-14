@@ -2,81 +2,166 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap');
 
-/* Global Reset */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* Color variables */
+:root {
+  --primary-color: #3950ff;
+  --sidebar-bg-color: #3950ff;
+  --sidebar-link-hover: #34495e;
+  --button-hover: #c0392b;
+  --white: #ffffff;
+  --danger-color: #e74c3c;
+  --header-bg: #34A1F0;
 }
 
-body {
-  font-family: 'Poppins', sans-serif;
-  color: #566787;
-  background-color: #f9f9f9;
-}
-
-/* General Layout */
-.App {
-  display: flex;
-  height: 100vh;
-  width: 100vw;
-}
-
-.app-container {
-  display: flex;
-  width: 100%;
-}
-
+/* Sidebar */
 .sidebar {
   width: 250px;
-  background-color: #3950FF;
-  padding: 20px;
   position: fixed;
   top: 0;
   left: 0;
-  height: 100%;
+  height: 100vh;
+  background-color: var(--sidebar-bg-color);
+  padding: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
-.main-content {
-  margin-left: 270px; /* Account for sidebar width and padding */
-  padding: 20px;
-  flex-grow: 1;
-  height: 100vh;
-  overflow-y: auto;
+.logo-container img {
+  width: 200px;
+  margin-bottom: 20px;
 }
 
-/* Sidebar Links */
 .sidebar-links {
   display: flex;
   flex-direction: column;
 }
 
-.sidebar-links .link {
-  color: white;
+.link {
+  color: var(--white);
   padding: 15px;
   text-decoration: none;
-  display: block;
-}
-
-.sidebar-links .link:hover {
-  background-color: #34495e;
+  display: flex;
+  align-items: center;
   transition: background-color 0.3s ease;
 }
 
-/* Logout Button */
+.link i {
+  margin-right: 10px;
+}
+
+.link:hover {
+  background-color: var(--sidebar-link-hover);
+}
+
 .logout-btn {
-  margin-top: 20px;
+  margin-top: auto;
   padding: 10px;
-  background-color: #e74c3c;
-  color: white;
+  background-color: var(--danger-color);
+  color: var(--white);
   border: none;
   cursor: pointer;
+  width: 100%;
+  text-align: center;
+  border-radius: 4px;
 }
 
 .logout-btn:hover {
-  background-color: #c0392b;
+  background-color: var(--button-hover);
 }
+
+/* Global Layout */
+.main-content {
+  margin-left: 270px;
+  padding: 20 40px;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.container-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+}
+
+/* Card Styles */
+.dashboard-card,
+.card {
+  background-color: var(--white);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.card:hover, .dashboard-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Welcome Section */
+.welcome-section {
+  background-color: var(--header-bg);
+  color: var(--white);
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Form Styles */
+.form-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 40px;
+  background-color: var(--white);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 15px;
+  background-color: var(--primary-color);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.submit-button:hover {
+  background-color: black;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: var(--white);
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 100%;
+}
+
+
+
+/* Sidebar Group */
+.sidebar-group {
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--sidebar-link-hover);
+}
+
 
 /* Dashboard Layout */
 .dashboard-container {
@@ -150,7 +235,7 @@ body {
 
 /* Welcome Section */
 .welcome-section {
-  background-color: #34A1F0;
+  background-color: #007bff;
   color: white;
   padding: 30px;
   border-radius: 10px;
