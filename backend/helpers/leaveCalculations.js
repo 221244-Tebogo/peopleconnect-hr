@@ -4,29 +4,19 @@ const calculateLeaveBalance = (userType, startDate) => {
   const leaveCycleStart = new Date(startDate);
   leaveCycleStart.setFullYear(today.getFullYear());
 
-  // Define leave entitlements based on user type
-  const sickLeaveDays = userType === "office" ? 30 : 36;
-  const annualLeaveDays = userType === "office" ? 15 : 18;
+  // Annual leave entitlement per year
+  const annualLeaveDays = 15; // Annual leave days per year
+  const sickLeaveDays = 0; // Total sick leave days over a 36-month cycle
 
-  // Mock functions for calculating used leave (replace with actual database queries)
-  const sickLeaveUsed = getSickLeaveUsed(userType);
-  const annualLeaveUsed = getAnnualLeaveUsed(userType);
+  // Annual leave balance: user hasn't taken leave since start of the year
+  const annualLeaveBalance = annualLeaveDays; // Full entitlement since they started in January
+
+  const sickLeaveBalance = sickLeaveDays;
 
   return {
-    sickLeaveBalance: sickLeaveDays - sickLeaveUsed,
-    annualLeaveBalance: annualLeaveDays - annualLeaveUsed,
+    annualLeaveBalance,
+    sickLeaveBalance,
   };
-};
-
-// Mock functions for leave usage (replace these with real database queries)
-const getSickLeaveUsed = (userType) => {
-  // Placeholder calculation for sick leave used
-  return 5;
-};
-
-const getAnnualLeaveUsed = (userType) => {
-  // Placeholder calculation for annual leave used
-  return 8;
 };
 
 module.exports = { calculateLeaveBalance };

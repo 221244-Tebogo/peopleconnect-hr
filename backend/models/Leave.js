@@ -13,6 +13,7 @@ const leaveSchema = new mongoose.Schema({
   reason: { type: String },
   documentUrl: { type: String },
   status: { type: String, default: "Pending" },
+  numberOfDays: { type: Number, required: true }, // New field for days of leave
   managerId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // Manager reference if needed
 });
 
