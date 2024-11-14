@@ -6,22 +6,23 @@
     height: 100vh;
     text-align: center;
     padding: 20px;
+    background-color: #3950FF;;
   }
   
   .page-not-found .logo {
-    width: 150px; /* Adjust size as needed */
+    width: 150px; 
     margin-bottom: 20px;
   }
   
   .page-not-found h1 {
-    font-size: 2.5rem;
-    color: #333;
+    font-size: 5rem;
+    color: #ffffff;
     margin-bottom: 10px;
   }
   
   .page-not-found p {
     font-size: 1.2rem;
-    color: #555;
+    color: #ffffff;
     margin-bottom: 20px;
   }
   
@@ -29,7 +30,7 @@
     padding: 10px 20px;
     font-size: 1rem;
     color: white;
-    background-color: #007bff;
+    background-color: #38CEFF;
     border: none;
     border-radius: 5px;
     cursor: pointer;

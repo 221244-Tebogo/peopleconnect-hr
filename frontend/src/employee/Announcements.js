@@ -1,7 +1,7 @@
-// src/pages/employees/Announcements.js
 import React, { useState, useEffect } from "react";
-import EmployeeSidebar from "../components/sidebar/EmployeeSidebar"; // Employee Sidebar
+import EmployeeSidebar from "../components/sidebar/EmployeeSidebar";
 import axios from "axios";
+import { Container, Row, Col, Card, Button, Form } from "react-bootstrap";
 
 const EmployeeAnnouncements = () => {
   const [announcements, setAnnouncements] = useState([]);
@@ -62,50 +62,51 @@ const EmployeeAnnouncements = () => {
   return (
     <div className="app-container">
       <EmployeeSidebar />
-      <div className="container">
+      <div className="main-content">
         <h2>Employee Announcements</h2>
-
-        {/* Displaying Announcements */}
-        <div>
-          {announcements.map((announcement) => (
-            <div key={announcement._id} className="card mb-3">
-              <div className="card-body">
-                <h5 className="card-title">{announcement.title}</h5>
-                <p className="card-text">
-                  <strong>Type:</strong> {announcement.type}
-                </p>
-                <p>{announcement.content}</p>
-
-                <button
-                  className="btn btn-outline-primary btn-sm"
-                  onClick={() => handleLike(announcement._id)}
-                >
-                  Like ({likeCounts[announcement._id]})
-                </button>
-
-                <div className="mt-3">
-                  <h6>Comments</h6>
-                  {comments[announcement._id]?.map((comment, idx) => (
-                    <p key={idx} className="card-text">
-                      {comment}
-                    </p>
-                  ))}
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Add a comment"
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" && e.target.value) {
-                        handleComment(announcement._id, e.target.value);
-                        e.target.value = "";
-                      }
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <Container>
+          <Row>
+            {announcements.map((announcement) => (
+              <Col md={4} className="mb-4" key={announcement._id}>
+                <Card>
+                  <Card.Body>
+                    <Card.Title>{announcement.title}</Card.Title>
+                    <Card.Text>
+                      <strong>Type:</strong> {announcement.type}
+                    </Card.Text>
+                    <Card.Text>{announcement.content}</Card.Text>
+                    <Button
+                      variant="outline-primary"
+                      size="sm"
+                      onClick={() => handleLike(announcement._id)}
+                    >
+                      Like ({likeCounts[announcement._id]})
+                    </Button>
+                    <div className="mt-3">
+                      <h6>Comments</h6>
+                      {comments[announcement._id]?.map((comment, idx) => (
+                        <p key={idx} className="mb-1">
+                          {comment}
+                        </p>
+                      ))}
+                      <Form.Control
+                        type="text"
+                        placeholder="Add a comment"
+                        className="mt-2"
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" && e.target.value) {
+                            handleComment(announcement._id, e.target.value);
+                            e.target.value = "";
+                          }
+                        }}
+                      />
+                    </div>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </Container>
       </div>
     </div>
   );

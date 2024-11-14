@@ -1,7 +1,7 @@
-// src/employee/Career.js
 import React, { useState, useEffect } from "react";
 import EmployeeSidebar from "../components/sidebar/EmployeeSidebar";
 import axios from "axios";
+import { Container, Row, Col, Card, Button, Form } from "react-bootstrap";
 
 const Career = () => {
   const [positions, setPositions] = useState([]);
@@ -66,54 +66,67 @@ const Career = () => {
       <EmployeeSidebar />
       <div className="main-content">
         <h2>Career Opportunities</h2>
-        <ul>
-          {positions.map((position) => (
-            <li key={position._id}>
-              <h3>{position.title}</h3>
-              <p>{position.description}</p>
-              <p>
-                <strong>Department:</strong> {position.department}
-              </p>
-              <button onClick={() => handleApply(position)}>Apply</button>
-            </li>
-          ))}
-        </ul>
+        <Container>
+          <Row>
+            {positions.map((position) => (
+              <Col md={4} className="mb-4" key={position._id}>
+                <Card>
+                  <Card.Body>
+                    <Card.Title>{position.title}</Card.Title>
+                    <Card.Text>{position.description}</Card.Text>
+                    <Card.Text>
+                      <strong>Department:</strong> {position.department}
+                    </Card.Text>
+                    <Button
+                      variant="primary"
+                      onClick={() => handleApply(position)}
+                    >
+                      Apply
+                    </Button>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </Container>
 
         {selectedPosition && (
           <div className="application-form">
             <h2>Apply for {selectedPosition.title}</h2>
-            <form onSubmit={handleSubmitApplication}>
-              <div className="form-group">
-                <label>Name:</label>
-                <input
+            <Form onSubmit={handleSubmitApplication}>
+              <Form.Group className="mb-3">
+                <Form.Label>Name:</Form.Label>
+                <Form.Control
                   type="text"
                   name="name"
                   onChange={handleChange}
                   required
                 />
-              </div>
-              <div className="form-group">
-                <label>Email:</label>
-                <input
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Email:</Form.Label>
+                <Form.Control
                   type="email"
                   name="email"
                   onChange={handleChange}
                   required
                 />
-              </div>
-              <div className="form-group">
-                <label>Upload Resume:</label>
-                <input
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Upload Resume:</Form.Label>
+                <Form.Control
                   type="file"
                   name="resume"
                   accept=".pdf,.doc,.docx"
                   onChange={handleChange}
                   required
                 />
-              </div>
-              <button type="submit">Submit Application</button>
-            </form>
-            {message && <p className="message">{message}</p>}
+              </Form.Group>
+              <Button variant="primary" type="submit">
+                Submit Application
+              </Button>
+            </Form>
+            {message && <p className="message mt-3">{message}</p>}
           </div>
         )}
       </div>
