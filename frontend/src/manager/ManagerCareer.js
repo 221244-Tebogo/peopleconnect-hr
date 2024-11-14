@@ -1,10 +1,9 @@
-// src/manager/ManagerCareer.js
 import React from "react";
 import ManagerSidebar from "../components/sidebar/ManagerSidebar";
 
 const ManagerCareer = () => {
   return (
-    <div className="app-container">
+    <div className="container-grid">
       <ManagerSidebar />
       <div className="main-content">
         <h2>Career Development</h2>

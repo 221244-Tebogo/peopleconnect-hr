@@ -10,7 +10,7 @@ const ManagerProfile = () => {
     email: "",
     address: "",
     phone: "",
-    role: "", // Add role to display the position
+    role: "",
   });
   const [isEditing, setIsEditing] = useState(false);
 
@@ -43,7 +43,7 @@ const ManagerProfile = () => {
         }
       );
       setUser(response.data);
-      setIsEditing(false); // Exit edit mode
+      setIsEditing(false);
       alert("Profile updated successfully");
     } catch (error) {
       console.error("Error updating profile:", error);

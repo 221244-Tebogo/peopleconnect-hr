@@ -22,9 +22,10 @@ const EmployeeSidebar = () => {
         <Link to="/employee/profile" className="link">
           <i className="fa fa-user" aria-hidden="true"></i> My Profile
         </Link>
-        <Link to="/employee/leave-management" className="link">
+        <Link to="/employee/employee-leave" className="link">
           <i className="fa fa-calendar" aria-hidden="true"></i> Leave Management
         </Link>
+
         <Link to="/employee/schedule" className="link">
           <i className="fa fa-clock" aria-hidden="true"></i> My Schedule
         </Link>

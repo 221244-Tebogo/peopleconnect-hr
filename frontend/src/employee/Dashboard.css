@@ -69,3 +69,39 @@
   font-size: 14px;
   color: #555;
 }
+
+
+.leave-page {
+  display: flex;
+  margin-top: 20px;
+}
+
+.main-content {
+  padding: 20px;
+}
+
+.leave-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.sidebar-right {
+  background-color: #f8f9fa;
+  padding: 20px;
+  height: 100vh;
+  overflow-y: auto;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 280px;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-right .card {
+  margin-bottom: 20px;
+}
+
+.leave-history {
+  margin-top: 20px;
+}

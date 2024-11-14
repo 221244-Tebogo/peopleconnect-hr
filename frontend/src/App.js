@@ -26,12 +26,13 @@ import ManagerTeam from "./manager/ManagerTeam";
 
 // Employee Pages
 import EmployeeDashboard from "./employee/Dashboard";
-import LeaveManagement from "./employee/LeaveManagement";
 import EmployeeProfile from "./employee/Profile";
 import Schedule from "./employee/Schedule";
 import Tasks from "./employee/TaskList";
 import Training from "./employee/Training";
 import Career from "./employee/Career";
+import EmployeeLeave from "./employee/EmployeeLeave";
+
 import Announcements from "./employee/Announcements";
 
 function App() {
@@ -68,12 +69,12 @@ function App() {
         {/* Employee Routes */}
         <Route path="/employee">
           <Route path="dashboard" element={<EmployeeDashboard />} />
-          <Route path="leave-management" element={<LeaveManagement />} />
           <Route path="profile" element={<EmployeeProfile />} />
           <Route path="schedule" element={<Schedule />} />
           <Route path="tasks" element={<Tasks />} />
           <Route path="training" element={<Training />} />
           <Route path="career" element={<Career />} />
+          <Route path="employee-leave" element={<EmployeeLeave />} />
           <Route path="announcements" element={<Announcements />} />{" "}
         </Route>
 
