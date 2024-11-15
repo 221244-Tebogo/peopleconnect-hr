@@ -1,6 +1,6 @@
 # HR Management App - People Connect
 
-![Banner](./path/to/banner.png)
+![Banner](.banner.png)
 
 ## Overview
 
